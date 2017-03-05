@@ -39,8 +39,8 @@ ses.comdistnt <- function (samp, dis, null.model = c("taxa.labels", "richness",
   dis <- as.matrix(dis)
   comdistnt.obs <- as.matrix(comdistnt(samp, dis, abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics))
   null.model <- match.arg(null.model)
-  comdistnt.rand <- switch(null.model, taxa.labels = t(replicate(runs, 
-                                                                 as.matrix(comdistnt(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE)), 
+  comdistnt.rand <- switch(null.model, taxa.labels = replicate(runs, 
+                                                                 as.matrix(comdistnt(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
                            richness = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
                                                                                           null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
                            frequency = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
