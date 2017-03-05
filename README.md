@@ -20,6 +20,12 @@ Lovell et al. 2016 Proportionality: a valid alternative to correlation
 for relative data
 (<http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004075>)
 
+#### ses.UniFrac
+
+Standardized effect size of UniFrac, based on null models created with
+permatfull/permatswap from the vegan package, or simple shuffling of
+phylogenetic tree.
+
 #### ses.comdist
 
 Standardized effect size of MPD (mean pairwise distance) separating taxa

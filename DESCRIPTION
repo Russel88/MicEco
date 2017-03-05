@@ -1,5 +1,5 @@
 Package: MicEco
-Title: Various functions for microbial 16S amplicon data
+Title: Various functions for microbial community data
 Version: 0.0.0.9000
 Authors@R: person("Jakob", "Russel", email = "russel2620@gmail.com", role = c("aut", "cre"))
 Description: What the title says.
