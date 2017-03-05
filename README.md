@@ -51,3 +51,12 @@ from the vegan package
 
 As `ses.comdistnt`, but null models are created with
 permatfull/permatswap from the vegan package
+
+### Copyright notice
+
+`rarefy_rrna` some code is from vegan licensed under GPL-2
+(<https://github.com/vegandevs/vegan>)
+
+`ses.UniFrac`, `ses.comdist`, `ses.comdist2`, `ses.comdistnt` and
+`ses.comdistnt2` Code from picante licensed under GPL-2
+(<https://github.com/skembel/picante>)
