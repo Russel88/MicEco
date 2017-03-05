@@ -40,19 +40,19 @@ ses.comdistnt <- function (samp, dis, null.model = c("taxa.labels", "richness",
   comdistnt.obs <- as.matrix(comdistnt(samp, dis, abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics))
   null.model <- match.arg(null.model)
   comdistnt.rand <- switch(null.model, taxa.labels = t(replicate(runs, 
-                                                                 comdistnt(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics), simplify = FALSE)), 
+                                                                 as.matrix(comdistnt(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE)), 
                            richness = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
                                                                                           null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
-                           frequency = replicate(runs, comdistnt(randomizeMatrix(samp, 
-                                                                                 null.model = "frequency"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics), simplify = FALSE), 
-                           sample.pool = replicate(runs, comdistnt(randomizeMatrix(samp, 
-                                                                                   null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics), simplify = FALSE), 
-                           phylogeny.pool = replicate(runs, comdistnt(randomizeMatrix(samp, 
-                                                                                      null.model = "richness"), taxaShuffle(dis), abundance.weighted, exclude.conspecifics = exclude.conspecifics), simplify = FALSE), 
-                           independentswap = replicate(runs, comdistnt(randomizeMatrix(samp, 
-                                                                                       null.model = "independentswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics), simplify = FALSE), 
-                           trialswap = replicate(runs,comdistnt(randomizeMatrix(samp, 
-                                                                                null.model = "trialswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics), simplify = FALSE))
+                           frequency = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
+                                                                                 null.model = "frequency"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
+                           sample.pool = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
+                                                                                   null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
+                           phylogeny.pool = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
+                                                                                      null.model = "richness"), taxaShuffle(dis), abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
+                           independentswap = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
+                                                                                       null.model = "independentswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
+                           trialswap = replicate(runs,as.matrix(comdistnt(randomizeMatrix(samp, 
+                                                                                null.model = "trialswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE))
   
   comdistnt.rand.mean <- apply(X = simplify2array(comdistnt.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)
   

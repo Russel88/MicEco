@@ -39,19 +39,19 @@ ses.comdist <- function (samp, dis, null.model = c("taxa.labels", "richness",
   comdist.obs <- as.matrix(comdist(samp, dis, abundance.weighted = abundance.weighted))
   null.model <- match.arg(null.model)
   comdist.rand <- switch(null.model, taxa.labels = t(replicate(runs, 
-                                                               comdist(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted), simplify = FALSE)), 
+                                                               as.matrix(comdist(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted)), simplify = FALSE)), 
                          richness = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
                                                                                       null.model = "richness"), dis, abundance.weighted)), simplify = FALSE), 
-                         frequency = replicate(runs, comdist(randomizeMatrix(samp, 
-                                                                             null.model = "frequency"), dis, abundance.weighted), simplify = FALSE), 
-                         sample.pool = replicate(runs, comdist(randomizeMatrix(samp, 
-                                                                               null.model = "richness"), dis, abundance.weighted), simplify = FALSE), 
-                         phylogeny.pool = replicate(runs, comdist(randomizeMatrix(samp, 
-                                                                                  null.model = "richness"), taxaShuffle(dis), abundance.weighted), simplify = FALSE), 
-                         independentswap = replicate(runs, comdist(randomizeMatrix(samp, 
-                                                                                   null.model = "independentswap", iterations), dis, abundance.weighted), simplify = FALSE), 
-                         trialswap = replicate(runs,comdist(randomizeMatrix(samp, 
-                                                                            null.model = "trialswap", iterations), dis, abundance.weighted), simplify = FALSE))
+                         frequency = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
+                                                                             null.model = "frequency"), dis, abundance.weighted)), simplify = FALSE), 
+                         sample.pool = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
+                                                                               null.model = "richness"), dis, abundance.weighted)), simplify = FALSE), 
+                         phylogeny.pool = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
+                                                                                  null.model = "richness"), taxaShuffle(dis), abundance.weighted)), simplify = FALSE), 
+                         independentswap = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
+                                                                                   null.model = "independentswap", iterations), dis, abundance.weighted)), simplify = FALSE), 
+                         trialswap = replicate(runs,as.matrix(comdist(randomizeMatrix(samp, 
+                                                                            null.model = "trialswap", iterations), dis, abundance.weighted)), simplify = FALSE))
   
   comdist.rand.mean <- apply(X = simplify2array(comdist.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)
   
