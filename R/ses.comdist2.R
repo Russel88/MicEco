@@ -50,7 +50,7 @@ ses.comdist2 <- function (samp, dis, method = "quasiswap", fixedmar = "both", sh
   comdist.obs.rank <- ifelse(is.na(comdist.rand.mean), NA, comdist.obs.rank)
   diag(comdist.obs.rank) <- NA
   
-  comdist.obs.p = comdist.obs.rank/(runs + 1)
+  comdist.obs.p <- comdist.obs.rank/(runs + 1)
   
   list(ntaxa = specnumber(samp), comdist.obs = comdist.obs, comdist.rand.mean = comdist.rand.mean, 
        comdist.rand.sd = comdist.rand.sd, comdist.obs.rank = comdist.obs.rank, comdist.obs.z = comdist.obs.z, comdist.obs.p = comdist.obs.p, runs = runs)

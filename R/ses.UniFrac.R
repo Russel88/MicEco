@@ -81,7 +81,7 @@ ses.UniFrac <- function (physeq, method = "taxa.labels", fixedmar = "both", shuf
   unifrac.obs.rank <- ifelse(is.na(unifrac.rand.mean), NA, unifrac.obs.rank)
   diag(unifrac.obs.rank) <- NA
   
-  unifrac.obs.p = unifrac.obs.rank/(runs + 1)
+  unifrac.obs.p <- unifrac.obs.rank/(runs + 1)
   
   list(unifrac.obs = unifrac.obs, unifrac.rand.mean = unifrac.rand.mean, 
        unifrac.rand.sd = unifrac.rand.sd, unifrac.obs.rank = unifrac.obs.rank, unifrac.obs.z = unifrac.obs.z, unifrac.obs.p = unifrac.obs.p)

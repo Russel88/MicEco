@@ -64,7 +64,7 @@ ses.comdistnt <- function (samp, dis, null.model = c("taxa.labels", "richness",
   comdistnt.obs.rank <- ifelse(is.na(comdistnt.rand.mean), NA, comdistnt.obs.rank)
   diag(comdistnt.obs.rank) <- NA
   
-  comdistnt.obs.p = comdistnt.obs.rank/(runs + 1)
+  comdistnt.obs.p <- comdistnt.obs.rank/(runs + 1)
   
   list(ntaxa = specnumber(samp), comdistnt.obs = comdistnt.obs, comdistnt.rand.mean = comdistnt.rand.mean, 
        comdistnt.rand.sd = comdistnt.rand.sd, comdistnt.obs.rank = comdistnt.obs.rank, comdistnt.obs.z = comdistnt.obs.z, comdistnt.obs.p = comdistnt.obs.p, runs = runs)
