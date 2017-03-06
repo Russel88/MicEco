@@ -57,6 +57,6 @@ permatfull/permatswap from the vegan package
 `rarefy_rrna` some code is from vegan licensed under GPL-2
 (<https://github.com/vegandevs/vegan>)
 
-`ses.UniFrac`, `ses.comdist`, `ses.comdist2`, `ses.comdistnt` and
-`ses.comdistnt2` Code from picante licensed under GPL-2
+`ses.comdist`, `ses.comdist2`, `ses.comdistnt` and `ses.comdistnt2` Some
+code from picante licensed under GPL-2
 (<https://github.com/skembel/picante>)
