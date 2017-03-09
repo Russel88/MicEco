@@ -3,7 +3,7 @@ Title: Various functions for microbial community data
 Version: 0.0.0.9000
 Authors@R: person("Jakob", "Russel", email = "russel2620@gmail.com", role = c("aut", "cre"))
 Description: What the title says.
-Depends: R (>= 3.2.5), Phyloseq, foreach, doParallel, picante, vegan
+Depends: R (>= 3.2.5), phyloseq, foreach, doParallel, picante, vegan
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

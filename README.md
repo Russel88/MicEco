@@ -6,6 +6,11 @@ MicEco: Various functions for analysis for microbial community data
     library(devtools)
     install_github("Russel88/MicEco")
 
+#### community\_rrna
+
+This functions calculates the average 16S rRNA copy number of the OTUs
+in a community/sample
+
 #### rarefy\_rrna
 
 This functions combines rarefaction with normalization. It rarefies
@@ -57,6 +62,6 @@ permatfull/permatswap from the vegan package
 `rarefy_rrna` some code is from vegan licensed under GPL-2
 (<https://github.com/vegandevs/vegan>)
 
-`ses.comdist`, `ses.comdist2`, `ses.comdistnt` and `ses.comdistnt2` Some
-code from picante licensed under GPL-2
+`ses.UniFrac`, `ses.comdist`, `ses.comdist2`, `ses.comdistnt` and
+`ses.comdistnt2` Code from picante licensed under GPL-2
 (<https://github.com/skembel/picante>)
