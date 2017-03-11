@@ -8,12 +8,12 @@ MicEco: Various functions for analysis for microbial community data
 
 #### community\_rrna
 
-This functions calculates the average 16S rRNA copy number of the OTUs
-in a community/sample
+Calculate the average 16S rRNA copy number of the OTUs in a
+community/sample
 
 #### rarefy\_rrna
 
-This functions combines rarefaction with normalization. It rarefies
+Combines rarefaction with 16S rRNA copy number correction. It rarefies
 counts with a probability of the inverse 16S rRNA copy number, such that
 besides rarefying the read counts the otu-table will be corrected for
 the varying 16S rRNA copy numbers of the OTUs.
@@ -62,6 +62,6 @@ permatfull/permatswap from the vegan package
 `rarefy_rrna` some code is from vegan licensed under GPL-2
 (<https://github.com/vegandevs/vegan>)
 
-`ses.UniFrac`, `ses.comdist`, `ses.comdist2`, `ses.comdistnt` and
-`ses.comdistnt2` Code from picante licensed under GPL-2
+`ses.comdist`, `ses.comdist2`, `ses.comdistnt` and `ses.comdistnt2` some
+code is from picante licensed under GPL-2
 (<https://github.com/skembel/picante>)

@@ -1,8 +1,8 @@
 #' Calculate the community/sample-wise mean 16S rRNA copy numbers
 #'
 #' Calculate the average 16S rRNA copy number for each sample in an OTU table 
-#' @param x An otu-table with OTUs as rows OR a phyloseq object
-#' @param copy.database What Greengenes database version was used to find OTUs. Atm only "v13.5" is available. Alternatively, A dataframe with two variables: "ID" is the OTU id matched by names in x and "Copy" is the copy number.
+#' @param x A phyloseq object OR an OTU-table with taxa as rows and OTU names as rownames. OTUs should be picked against the Greengenes v13.5 database, unless a another copy number database is provided.
+#' @param copy.database What Greengenes database version was used to find OTUs. Atm only "v13.5" is available. Alternatively, A dataframe with two variables: "ID" is the OTU id matched by rownames in x and "Copy" is the copy number.
 #' @param weighted Logical. Should the average copy number be weighted by the relative abundances of the OTUs? If not, it is adviced to rarefy the otu-table first if there are large differences in sample reads.
 #' @keywords rrna
 #' @return A dataframe with an average copy number for each sample

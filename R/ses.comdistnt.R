@@ -22,7 +22,7 @@
 #' @return A list of results:
 #' \itemize{
 #'   \item ntaxa - Number of taxa in community
-#'   \item comdistnt.obs - Observed mntd between community
+#'   \item comdistnt.obs - Observed mntd between communities
 #'   \item comdistnt.rand.mean - Mean mntd between null communities
 #'   \item comdistnt.rand.sd - Standard deviation of mntd between null communities
 #'   \item comdistnt.obs.rank - Rank of observed mntd vs. null mntd

@@ -17,7 +17,7 @@
 #' @keywords ses unifrac
 #' @return A list of results:
 #' \itemize{
-#'   \item unifrac.obs - Observed unifrac between community
+#'   \item unifrac.obs - Observed unifrac between communities
 #'   \item unifrac.rand.mean - Mean unifrac between null communities
 #'   \item unifrac.rand.sd - Standard deviation of unifrac between null communities
 #'   \item unifrac.obs.rank - Rank of observed unifrac vs. null unifrac
