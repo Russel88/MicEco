@@ -10,7 +10,7 @@ ses.comdistnt2(samp, dis, method = "quasiswap", fixedmar = "both",
   runs = 999)
 }
 \arguments{
-\item{samp}{Community data matrix}
+\item{samp}{Community data matrix with samples as rows}
 
 \item{dis}{Distance matrix (generally a phylogenetic distance matrix)}
 

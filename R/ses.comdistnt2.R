@@ -1,7 +1,7 @@
 #' Standardized effect size of inter-community MNTD (betaMNTD, betaNTI)
 #'
 #' Standardized effect size of MNTD (mean nearest taxon distance) separating taxa in two communities, a measure of phylogenetic beta diversity
-#' @param samp Community data matrix
+#' @param samp Community data matrix with samples as rows
 #' @param dis Distance matrix (generally a phylogenetic distance matrix)
 #' @param method Character for method used for the swap algorithm ("swap", "tswap", "quasiswap", "backtrack"). If NULL no swap algorithm is applied (uses permatfull from vegan). If mtype="count" the "quasiswap", "swap", "swsh" and "abuswap" methods are available (see details).
 #' @param fixedmar Character, stating which of the row/column sums should be preserved ("none", "rows", "columns", "both").

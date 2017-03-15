@@ -1,7 +1,7 @@
 #' Standardized effect size of inter-community MNTD (betaMNTD, betaNTI)
 #'
 #' Standardized effect size of MNTD (mean nearest taxon distance) separating taxa in two communities, a measure of phylogenetic beta diversity
-#' @param samp Community data matrix
+#' @param samp Community data matrix with samples as rows
 #' @param dis Distance matrix (generally a phylogenetic distance matrix)
 #' @param null.model Null model to use (see Details section for description)
 #' @param abundance.weighted Should mean nearest taxon distances for each species be weighted by species abundance? (default = FALSE)

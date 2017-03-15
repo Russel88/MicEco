@@ -10,7 +10,7 @@ ses.comdistnt(samp, dis, null.model = c("taxa.labels", "richness",
   iterations = 1000)
 }
 \arguments{
-\item{samp}{Community data matrix}
+\item{samp}{Community data matrix with samples as rows}
 
 \item{dis}{Distance matrix (generally a phylogenetic distance matrix)}
 
