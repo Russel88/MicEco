@@ -8,9 +8,9 @@
 \usage{
 rarefy_rrna(x, reads, copy.database = "v13.5", seed = NULL)
 
-rarefy_rrna.matrix(x, reads, rRNA, seed = NULL)
+rarefy_rrna.matrix(x, reads, copy.database, seed = NULL)
 
-rarefy_rrna.phyloseq(x, reads, rRNA, seed = NULL)
+rarefy_rrna.phyloseq(x, reads, copy.database, seed = NULL)
 }
 \arguments{
 \item{x}{A phyloseq object OR an OTU-table with taxa as columns and OTU names as colnames. OTUs should be picked against the Greengenes v13.5 database, unless a another copy number database is provided.}

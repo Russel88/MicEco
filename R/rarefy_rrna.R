@@ -18,7 +18,7 @@ rarefy_rrna <- function(x, reads, copy.database="v13.5", seed=NULL){
 #' @rdname rarefy_rrna
 #' @export
 
-rarefy_rrna.matrix <- function (x, reads, rRNA, seed=NULL){
+rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL){
   
   if(is.null(seed)) {
     rand.seed <- sample(1000,1)
@@ -59,7 +59,7 @@ rarefy_rrna.matrix <- function (x, reads, rRNA, seed=NULL){
 #' @rdname rarefy_rrna
 #' @export
 
-rarefy_rrna.phyloseq <- function (x, reads, rRNA, seed=NULL){
+rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL){
   
   if(is.null(seed)) {
     rand.seed <- sample(1000,1)
