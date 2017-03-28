@@ -6,11 +6,11 @@
 \alias{rarefy_rrna.phyloseq}
 \title{Rarefy and normalize based on 16S rRNA copy numbers}
 \usage{
-rarefy_rrna(x, reads, copy.database = "v13.5", seed = NULL)
+rarefy_rrna(x, reads, copy.database = "v13.5", seed = NULL, trim = FALSE)
 
-rarefy_rrna.matrix(x, reads, copy.database, seed = NULL)
+rarefy_rrna.matrix(x, reads, copy.database, seed = NULL, trim)
 
-rarefy_rrna.phyloseq(x, reads, copy.database, seed = NULL)
+rarefy_rrna.phyloseq(x, reads, copy.database, seed = NULL, trim)
 }
 \arguments{
 \item{x}{A phyloseq object OR an OTU-table with taxa as columns and OTU names as colnames. OTUs should be picked against the Greengenes v13.5 database, unless a another copy number database is provided.}
@@ -20,6 +20,8 @@ rarefy_rrna.phyloseq(x, reads, copy.database, seed = NULL)
 \item{copy.database}{What Greengenes database version was used to find OTUs. Atm only "v13.5" is available. Alternatively, A dataframe with two variables: "ID" is the OTU id matched by names in x and "Copy" is the copy number.}
 
 \item{seed}{Random seed for sampling.}
+
+\item{trim}{Should samples with less than the set amount of reads be trimmed away?}
 }
 \value{
 A rarefied otu-table

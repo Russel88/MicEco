@@ -5,20 +5,21 @@
 #' @param reads Number of reads to sample. 
 #' @param copy.database What Greengenes database version was used to find OTUs. Atm only "v13.5" is available. Alternatively, A dataframe with two variables: "ID" is the OTU id matched by names in x and "Copy" is the copy number.
 #' @param seed Random seed for sampling.
+#' @param trim Should samples with less than the set amount of reads be trimmed away?
 #' @keywords rarefy normalize rrna
 #' @return A rarefied otu-table
 #' @import phyloseq
 #' @export
 
-rarefy_rrna <- function(x, reads, copy.database="v13.5", seed=NULL){
-  if(class(x) == "phyloseq") y <- rarefy_rrna.phyloseq(x,reads,copy.database,seed) else y <- rarefy_rrna.matrix(x,reads,copy.database,seed)
+rarefy_rrna <- function(x, reads, copy.database="v13.5", seed=NULL, trim=FALSE){
+  if(class(x) == "phyloseq") y <- rarefy_rrna.phyloseq(x,reads,copy.database,seed,trim) else y <- rarefy_rrna.matrix(x,reads,copy.database,seed,trim)
   return(y)
 }
 
 #' @rdname rarefy_rrna
 #' @export
 
-rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL){
+rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL, trim){
   
   if(is.null(seed)) {
     rand.seed <- sample(1000,1)
@@ -45,21 +46,25 @@ rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL){
   x <- x[,order(colnames(x))]
   nm <- colnames(x)
   for (i in 1:nrow(x)) {
-    if (sum(x[i, ]) <= these.reads[i]) 
-      next
+    if (sum(x[i, ]) <= these.reads[i]) next
     row <- sample(rep(nm, times = x[i, ]), these.reads[i],prob=rep(rrna.rev, times = x[i, ]))
     row <- table(row)
     ind <- names(row)
     x[i, ] <- 0
     x[i, ind] <- row
   }
-  x
+  if(trim) {
+    xnew <- x[rowSums(x) >= reads, ]
+    message(paste((nrow(x)-nrow(xnew)),"samples were trimmed away because they had fewer than",reads,"reads"))
+  } else xnew <- x
+  
+  xnew
 }
 
 #' @rdname rarefy_rrna
 #' @export
 
-rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL){
+rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL, trim){
   
   if(is.null(seed)) {
     rand.seed <- sample(1000,1)
@@ -88,15 +93,19 @@ rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL){
   x2 <- x2[,order(colnames(x2))]
   nm <- colnames(x2)
   for (i in 1:nrow(x2)) {
-    if (sum(x2[i, ]) <= these.reads[i]) 
-      next
+    if (sum(x2[i, ]) <= these.reads[i]) next
     row <- sample(rep(nm, times = x2[i, ]), these.reads[i],prob=rep(rrna.rev, times = x2[i, ]))
     row <- table(row)
     ind <- names(row)
     x2[i, ] <- 0
     x2[i, ind] <- row
   }
-  if(taxa_are_rows(x)) otu_table(x) <- otu_table(t(x2),taxa_are_rows = TRUE) else otu_table(x) <- otu_table(x2,taxa_are_rows = FALSE)
+  if(trim) {
+    xnew <- x2[rowSums(x2) >= reads, ]
+    message(paste((nrow(x2)-nrow(xnew)),"samples were trimmed away because they had fewer than",reads,"reads"))
+  } else xnew <- x2
+  
+  if(taxa_are_rows(x)) otu_table(x) <- otu_table(t(xnew),taxa_are_rows = TRUE) else otu_table(x) <- otu_table(xnew,taxa_are_rows = FALSE)
   x
 }
 
