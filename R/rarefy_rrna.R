@@ -27,13 +27,15 @@ rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL, trim){
     message(paste("Remember to set seed!","Now set to",rand.seed)) }
 
   # Load Copy database
-  if(copy.database == "v13.5"){
-    rRNA <- read.table("https://raw.githubusercontent.com/Russel88/MicEco/master/data/gg_13_5_16S.tab")
-    colnames(rRNA) <- c("ID","Copy")
+  if(is.data.frame(copy.database)){
+    rRNA <- copy.database
   } else {
-    rRNA <- copy.database 
+    if(copy.database == "v13.5"){
+      rRNA <- read.table("https://raw.githubusercontent.com/Russel88/MicEco/master/data/gg_13_5_16S.tab")
+      colnames(rRNA) <- c("ID","Copy")
+    }
   }
-    
+  
   # Probabilities
   rrna <- as.data.frame(rRNA[rRNA$ID %in% colnames(x),])
   rownames(rrna) <- rrna$ID
@@ -75,11 +77,13 @@ rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL, trim){
   if(taxa_are_rows(x)) x2 <- as.matrix(t(x2))
   
   # Load Copy database
-  if(copy.database == "v13.5"){
-    rRNA <- read.table("https://raw.githubusercontent.com/Russel88/MicEco/master/data/gg_13_5_16S.tab")
-    colnames(rRNA) <- c("ID","Copy")
+  if(is.data.frame(copy.database)){
+    rRNA <- copy.database
   } else {
-    rRNA <- copy.database 
+    if(copy.database == "v13.5"){
+      rRNA <- read.table("https://raw.githubusercontent.com/Russel88/MicEco/master/data/gg_13_5_16S.tab")
+      colnames(rRNA) <- c("ID","Copy")
+    }
   }
     
   # Probabilities
