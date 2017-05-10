@@ -12,6 +12,7 @@
 #' @param thin Number of discarded permuted matrices between two evaluations in sequential ("swap", "tswap") methods.
 #' @param abundance.weighted Should mean nearest taxon distances for each species be weighted by species abundance? (default = FALSE)
 #' @param runs Number of randomizations
+#' @param cores Number of cores to use for parallel computing
 #' @details See permat (vegan) for detailed options
 #' @keywords ses MPD bMPD bNRI betaMPD betaNRI
 #' @return A list of results:
@@ -30,14 +31,14 @@
 #' @export
 
 ses.comdist2 <- function (samp, dis, method = "quasiswap", fixedmar = "both", shuffle = "both", strata = NULL, mtype = "count", burnin = 0, thin = 1, 
-                          abundance.weighted = FALSE, runs = 999){
+                          abundance.weighted = FALSE, runs = 999, cores = 1){
   dis <- as.matrix(dis)
-  comdist.obs <- as.matrix(comdist(samp, dis, abundance.weighted = abundance.weighted))
+  comdist.obs <- as.matrix(comdist.par(samp, dis, abundance.weighted = abundance.weighted, cores = cores, progress = FALSE))
 
   if(is.null(method)) {
-    comdist.rand <- replicate(runs, as.matrix(comdist(permatfull(samp, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, times = 1)$perm[[1]], dis, abundance.weighted)), simplify = FALSE)
+    comdist.rand <- replicate(runs, as.matrix(comdist.par(permatfull(samp, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, times = 1)$perm[[1]], dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE)
   } else {
-    comdist.rand <- replicate(runs, as.matrix(comdist(permatswap(samp, method = method, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, burnin = burnin, thin = thin, times = 1)$perm[[1]], dis, abundance.weighted)), simplify = FALSE)
+    comdist.rand <- replicate(runs, as.matrix(comdist.par(permatswap(samp, method = method, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, burnin = burnin, thin = thin, times = 1)$perm[[1]], dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE)
     }
   
   comdist.rand.mean <- apply(X = simplify2array(comdist.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)

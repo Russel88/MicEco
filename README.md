@@ -57,11 +57,19 @@ from the vegan package
 As `ses.comdistnt`, but null models are created with
 permatfull/permatswap from the vegan package
 
+#### comdist.par
+
+A parallel version of the comdist function from the picante package for significant speedup
+
+#### comdistnt.par
+
+A parallel version of the comdistnt function from the picante package for significant speedup
+
 ### Copyright notice
 
-`rarefy_rrna` some code is from vegan licensed under GPL-2
+`rarefy_rrna`: Some code is from vegan licensed under GPL-2
 (<https://github.com/vegandevs/vegan>)
 
-`ses.comdist`, `ses.comdist2`, `ses.comdistnt` and `ses.comdistnt2` some
+`comdist.par`, `comdistnt.par`, `ses.comdist`, `ses.comdist2`, `ses.comdistnt` and `ses.comdistnt2`: Some
 code is from picante licensed under GPL-2
 (<https://github.com/skembel/picante>)

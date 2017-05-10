@@ -8,6 +8,7 @@
 #' @param exclude.conspecifics Should conspecific taxa in different communities be exclude from MNTD calculations? (default = FALSE)
 #' @param runs Number of randomizations
 #' @param iterations Number of iterations to use for each randomization (for independent swap and trial null models)
+#' @param cores Number of cores to use for parallel computing
 #' @details Currently implemented null models (arguments to null.model):
 #' \itemize{
 #'  \item taxa.labels - Shuffle distance matrix labels (across all taxa included in distance matrix) 
@@ -35,24 +36,24 @@
 
 ses.comdistnt <- function (samp, dis, null.model = c("taxa.labels", "richness", 
                                                      "frequency", "sample.pool", "phylogeny.pool", "independentswap", 
-                                                     "trialswap"), abundance.weighted = FALSE, exclude.conspecifics = FALSE, runs = 999, iterations = 1000){
+                                                     "trialswap"), abundance.weighted = FALSE, exclude.conspecifics = FALSE, runs = 999, iterations = 1000, cores = 1){
   dis <- as.matrix(dis)
-  comdistnt.obs <- as.matrix(comdistnt(samp, dis, abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics))
+  comdistnt.obs <- as.matrix(comdistnt.par(samp, dis, abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE))
   null.model <- match.arg(null.model)
   comdistnt.rand <- switch(null.model, taxa.labels = replicate(runs, 
-                                                                 as.matrix(comdistnt(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
-                           richness = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
-                                                                                          null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
-                           frequency = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
-                                                                                 null.model = "frequency"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
-                           sample.pool = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
-                                                                                   null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
-                           phylogeny.pool = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
-                                                                                      null.model = "richness"), taxaShuffle(dis), abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
-                           independentswap = replicate(runs, as.matrix(comdistnt(randomizeMatrix(samp, 
-                                                                                       null.model = "independentswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE), 
-                           trialswap = replicate(runs,as.matrix(comdistnt(randomizeMatrix(samp, 
-                                                                                null.model = "trialswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics)), simplify = FALSE))
+                                                                 as.matrix(comdistnt.par(samp, taxaShuffle(dis), abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE), 
+                           richness = replicate(runs, as.matrix(comdistnt.par(randomizeMatrix(samp, 
+                                                                                          null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE), 
+                           frequency = replicate(runs, as.matrix(comdistnt.par(randomizeMatrix(samp, 
+                                                                                 null.model = "frequency"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE), 
+                           sample.pool = replicate(runs, as.matrix(comdistnt.par(randomizeMatrix(samp, 
+                                                                                   null.model = "richness"), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE), 
+                           phylogeny.pool = replicate(runs, as.matrix(comdistnt.par(randomizeMatrix(samp, 
+                                                                                      null.model = "richness"), taxaShuffle(dis), abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE), 
+                           independentswap = replicate(runs, as.matrix(comdistnt.par(randomizeMatrix(samp, 
+                                                                                       null.model = "independentswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE), 
+                           trialswap = replicate(runs,as.matrix(comdistnt.par(randomizeMatrix(samp, 
+                                                                                null.model = "trialswap", iterations), dis, abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE))
   
   comdistnt.rand.mean <- apply(X = simplify2array(comdistnt.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)
   

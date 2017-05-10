@@ -6,7 +6,7 @@
 \usage{
 ses.comdist2(samp, dis, method = "quasiswap", fixedmar = "both",
   shuffle = "both", strata = NULL, mtype = "count", burnin = 0,
-  thin = 1, abundance.weighted = FALSE, runs = 999)
+  thin = 1, abundance.weighted = FALSE, runs = 999, cores = 1)
 }
 \arguments{
 \item{samp}{Community data matrix with samples as rows}
@@ -30,6 +30,8 @@ ses.comdist2(samp, dis, method = "quasiswap", fixedmar = "both",
 \item{abundance.weighted}{Should mean nearest taxon distances for each species be weighted by species abundance? (default = FALSE)}
 
 \item{runs}{Number of randomizations}
+
+\item{cores}{Number of cores to use for parallel computing}
 }
 \value{
 A list of results:

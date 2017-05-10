@@ -7,6 +7,7 @@
 #' @param abundance.weighted Should mean nearest taxon distances for each species be weighted by species abundance? (default = FALSE)
 #' @param runs Number of randomizations
 #' @param iterations Number of iterations to use for each randomization (for independent swap and trial null models)
+#' @param cores Number of cores to use for parallel computing
 #' @details Currently implemented null models (arguments to null.model):
 #' \itemize{
 #'  \item taxa.labels - Shuffle distance matrix labels (across all taxa included in distance matrix) 
@@ -34,24 +35,24 @@
 
 ses.comdist <- function (samp, dis, null.model = c("taxa.labels", "richness", 
                                                    "frequency", "sample.pool", "phylogeny.pool", "independentswap", 
-                                                   "trialswap"), abundance.weighted = FALSE, runs = 999, iterations = 1000){
+                                                   "trialswap"), abundance.weighted = FALSE, runs = 999, iterations = 1000, cores = 1){
   dis <- as.matrix(dis)
-  comdist.obs <- as.matrix(comdist(samp, dis, abundance.weighted = abundance.weighted))
+  comdist.obs <- as.matrix(comdist.par(samp, dis, abundance.weighted = abundance.weighted, cores = cores, progress = FALSE))
   null.model <- match.arg(null.model)
   comdist.rand <- switch(null.model, 
-                         taxa.labels = replicate(runs, as.matrix(comdist(samp, taxaShuffle(dis), abundance.weighted)), simplify = FALSE), 
-                         richness = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
-                                                                                      null.model = "richness"), dis, abundance.weighted)), simplify = FALSE), 
-                         frequency = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
-                                                                             null.model = "frequency"), dis, abundance.weighted)), simplify = FALSE), 
-                         sample.pool = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
-                                                                               null.model = "richness"), dis, abundance.weighted)), simplify = FALSE), 
-                         phylogeny.pool = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
-                                                                                  null.model = "richness"), taxaShuffle(dis), abundance.weighted)), simplify = FALSE), 
-                         independentswap = replicate(runs, as.matrix(comdist(randomizeMatrix(samp, 
-                                                                                   null.model = "independentswap", iterations), dis, abundance.weighted)), simplify = FALSE), 
-                         trialswap = replicate(runs,as.matrix(comdist(randomizeMatrix(samp, 
-                                                                            null.model = "trialswap", iterations), dis, abundance.weighted)), simplify = FALSE))
+                         taxa.labels = replicate(runs, as.matrix(comdist.par(samp, taxaShuffle(dis), abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE), 
+                         richness = replicate(runs, as.matrix(comdist.par(randomizeMatrix(samp, 
+                                                                                      null.model = "richness"), dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE), 
+                         frequency = replicate(runs, as.matrix(comdist.par(randomizeMatrix(samp, 
+                                                                             null.model = "frequency"), dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE), 
+                         sample.pool = replicate(runs, as.matrix(comdist.par(randomizeMatrix(samp, 
+                                                                               null.model = "richness"), dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE), 
+                         phylogeny.pool = replicate(runs, as.matrix(comdist.par(randomizeMatrix(samp, 
+                                                                                  null.model = "richness"), taxaShuffle(dis), abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE), 
+                         independentswap = replicate(runs, as.matrix(comdist.par(randomizeMatrix(samp, 
+                                                                                   null.model = "independentswap", iterations), dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE), 
+                         trialswap = replicate(runs,as.matrix(comdist.par(randomizeMatrix(samp, 
+                                                                            null.model = "trialswap", iterations), dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE))
   
   comdist.rand.mean <- apply(X = simplify2array(comdist.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)
   

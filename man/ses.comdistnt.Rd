@@ -7,7 +7,7 @@
 ses.comdistnt(samp, dis, null.model = c("taxa.labels", "richness",
   "frequency", "sample.pool", "phylogeny.pool", "independentswap", "trialswap"),
   abundance.weighted = FALSE, exclude.conspecifics = FALSE, runs = 999,
-  iterations = 1000)
+  iterations = 1000, cores = 1)
 }
 \arguments{
 \item{samp}{Community data matrix with samples as rows}
@@ -23,6 +23,8 @@ ses.comdistnt(samp, dis, null.model = c("taxa.labels", "richness",
 \item{runs}{Number of randomizations}
 
 \item{iterations}{Number of iterations to use for each randomization (for independent swap and trial null models)}
+
+\item{cores}{Number of cores to use for parallel computing}
 }
 \value{
 A list of results:

@@ -12,6 +12,7 @@
 #' @param thin Number of discarded permuted matrices between two evaluations in sequential ("swap", "tswap") methods.
 #' @param abundance.weighted Should mean nearest taxon distances for each species be weighted by species abundance? (default = FALSE)
 #' @param runs Number of randomizations
+#' @param cores Number of cores to use for parallel computing
 #' @details See permat (vegan) for detailed options
 #' @keywords ses MNTD bMNTD bNTI betaMNTD betaNTI
 #' @return A list of results:
@@ -30,14 +31,14 @@
 #' @export
 
 ses.comdistnt2 <- function (samp, dis, method = "quasiswap", fixedmar = "both", shuffle = "both", strata = NULL, mtype = "count", burnin = 0, thin = 1, 
-                          abundance.weighted = FALSE, exclude.conspecifics = FALSE, runs = 999){
+                          abundance.weighted = FALSE, exclude.conspecifics = FALSE, runs = 999, cores = 1){
   dis <- as.matrix(dis)
-  comdistnt.obs <- as.matrix(comdistnt(samp, dis, abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics))
+  comdistnt.obs <- as.matrix(comdistnt.par(samp, dis, abundance.weighted = abundance.weighted, exclude.conspecifics = exclude.conspecifics, cores = cores, progress = FALSE))
 
   if(is.null(method)) {
-    comdistnt.rand <- replicate(runs, as.matrix(comdistnt(permatfull(samp, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, times = 1)$perm[[1]], dis, abundance.weighted, exclude.conspecifics)), simplify = FALSE)
+    comdistnt.rand <- replicate(runs, as.matrix(comdistnt.par(permatfull(samp, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, times = 1)$perm[[1]], dis, abundance.weighted, exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE)
   } else {
-    comdistnt.rand <- replicate(runs, as.matrix(comdistnt(permatswap(samp, method = method, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, burnin = burnin, thin = thin, times = 1)$perm[[1]], dis, abundance.weighted, exclude.conspecifics)), simplify = FALSE)
+    comdistnt.rand <- replicate(runs, as.matrix(comdistnt.par(permatswap(samp, method = method, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, burnin = burnin, thin = thin, times = 1)$perm[[1]], dis, abundance.weighted, exclude.conspecifics, cores = cores, progress = FALSE)), simplify = FALSE)
     }
   
   comdistnt.rand.mean <- apply(X = simplify2array(comdistnt.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)
