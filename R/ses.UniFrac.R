@@ -28,7 +28,7 @@
 #' @import vegan
 #' @import phyloseq
 #' @import foreach
-#' @import doParallel
+#' @import doSNOW
 #' @export
 
 ses.UniFrac <- function (physeq, method = "taxa.labels", fixedmar = "both", shuffle = "both", strata = NULL, mtype = "count", burnin = 0, thin = 1, 
@@ -57,9 +57,21 @@ ses.UniFrac <- function (physeq, method = "taxa.labels", fixedmar = "both", shuf
   temp <- physeq
   
   # Unifrac of random communites
-  cl <- makeCluster(cores)
-  registerDoParallel(cl)
-  unifrac.rand <- foreach(i = 1:runs, .packages = "phyloseq") %dopar% {
+  if(progress){
+    pb <- txtProgressBar(max = runs, style = 3)
+    progress <- function(n) setTxtProgressBar(pb, n)
+    opts <- list(progress = progress)
+  } else {
+    opts <- NULL
+  }
+  
+  if(cores == 1) {
+    registerDoSEQ() } 
+  else {
+    cl <- makeCluster(cores)
+    registerDoSNOW(cl)
+  }
+  unifrac.rand <- foreach(i = 1:runs, .packages = "phyloseq", .options.snow = opts) %dopar% {
     
     if(method == "taxa.labels"){
       phy_tree(temp) <- phy_tree(rands[[i]])
@@ -69,7 +81,7 @@ ses.UniFrac <- function (physeq, method = "taxa.labels", fixedmar = "both", shuf
     
     unifrac.rand.sub <- as.matrix(UniFrac(temp, weighted = weighted, normalized = normalized))
   }  
-  stopCluster(cl)
+  if(cores != 1) stopCluster(cl)
   
   unifrac.rand.mean <- apply(X = simplify2array(unifrac.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)
   

@@ -22,7 +22,7 @@ rarefy_rrna <- function(x, reads, copy.database="v13.5", seed=NULL, trim=FALSE){
 rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL, trim){
   
   if(is.null(seed)) {
-    rand.seed <- sample(1000,1)
+    rand.seed <- as.numeric(Sys.time())
     set.seed(rand.seed)
     message(paste("Remember to set seed!","Now set to",rand.seed)) }
 

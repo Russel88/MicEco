@@ -9,7 +9,8 @@
 #' @param progress Show a progress bar
 #' @keywords MNTD bMNTD bNTI betaMNTD betaNTI
 #' @return A distance matrix of MNTD values
-#' @import picante doSNOW
+#' @import picante
+#' @import doSNOW
 #' @export
 
 comdistnt.par <- function (comm, dis, abundance.weighted = FALSE, exclude.conspecifics = FALSE, cores = 1, progress = TRUE) {

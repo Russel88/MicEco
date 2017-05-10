@@ -8,7 +8,8 @@
 #' @param progress Show a progress bar
 #' @keywords MPD bMPD bNRI betaMPD betaNRI
 #' @return A distance matrix of MPD values
-#' @import picante doSNOW
+#' @import picante
+#' @import doSNOW
 #' @export
 
 comdist.par <- function (comm, dis, abundance.weighted = FALSE, cores = 1, progress = TRUE) {
