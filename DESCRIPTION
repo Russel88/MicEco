@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Jakob", "Russel", email = "russel2620@gmail.com", role = c("aut", "cre"))
 Description: What the title says.
 Depends: R (>= 3.2.5)
-Imports: phyloseq, foreach, doSNOW, picante, vegan
+Imports: phyloseq, foreach, doSNOW, picante, vegan, snow
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
