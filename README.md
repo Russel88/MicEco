@@ -65,6 +65,14 @@ A parallel version of the comdist function from the picante package for signific
 
 A parallel version of the comdistnt function from the picante package for significant speedup
 
+#### ses.permtest
+
+Permutation test of z-matrix from `ses.comdist`, `ses.comdist2`, `ses.comdistnt`, `ses.comdistnt2` and `ses.UniFrac`.
+
+#### ses.bootstrap
+
+Bootstrap of z-matrix from `ses.comdist`, `ses.comdist2`, `ses.comdistnt`, `ses.comdistnt2` and `ses.UniFrac`.
+
 ### Copyright notice
 
 `rarefy_rrna`: Some code is from vegan licensed under GPL-2
