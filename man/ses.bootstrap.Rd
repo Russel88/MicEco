@@ -21,5 +21,5 @@ Quantiles given by probs, and adjusted p-values testing whether estimate is abov
 \description{
 Bootstrap of z-matrix from ses.comdist(2), ses.comdistnt and ses.UniFrac.
 Estimate distribution for each group and combination of groups.
-Also tests if distribution is different from a normal distribution with mean zero and sd equal to bootstrapped distribution.
+Also tests if distribution different from a normal distribution around 0 with sd = 1
 }

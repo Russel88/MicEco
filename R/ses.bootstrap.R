@@ -2,7 +2,7 @@
 #' 
 #' Bootstrap of z-matrix from ses.comdist(2), ses.comdistnt and ses.UniFrac.
 #' Estimate distribution for each group and combination of groups.
-#' Also tests if distribution is different from a normal distribution with mean zero and sd equal to bootstrapped distribution.
+#' Also tests if distribution different from a normal distribution around 0 with sd = 1
 #' @param zmat Symmetric matrix with z-values
 #' @param sampleGroups Vector with the grouping of the samples in the same order as in zmat
 #' @param R Number of bootstraps
@@ -51,9 +51,9 @@ ses.bootstrap <- function(zmat, sampleGroups, R = 10000, probs = c(0.025, 0.5, 0
   CIs <- t(sapply(boots, function(x) quantile(x, probs = probs)))
   rownames(CIs) <- c(unique(sampleGroups),apply(combis,2,function(x) paste(x, collapse = "_")))
   
-  pvals.below <- sapply(boots, function(x) (sum(x >= rnorm(length(x),mean=0,sd=sd(x)))+1)/(R+1))
-  pvals.above <- sapply(boots, function(x) (sum(x <= rnorm(length(x),mean=0,sd=sd(x)))+1)/(R+1))
-  
+  pvals.below <- sapply(boots, function(x) (sum(x >= rnorm(length(x),mean=0,sd=1))+1)/(R+1))
+  pvals.above <- sapply(boots, function(x) (sum(x <= rnorm(length(x),mean=0,sd=1))+1)/(R+1))
+
   CIs <- as.data.frame(CIs)
   
   CIs$pval.adj.below <- p.adjust(pvals.below, method = "fdr")
