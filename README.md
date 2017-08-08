@@ -18,6 +18,14 @@ counts with a probability of the inverse 16S rRNA copy number, such that
 besides rarefying the read counts the otu-table will be corrected for
 the varying 16S rRNA copy numbers of the OTUs.
 
+#### neutral.fit
+
+Fit neutral model developed by Sloan et al. (2006, Environ Microbiol 8(4):732-740) and implemented by Burns et al. (2015, ISME J 10(3):655-664).
+
+#### neutral.rand
+
+Fit neutral model developed by Sloan et al. (2006, Environ Microbiol 8(4):732-740) and implemented by Burns et al. (2015, ISME J 10(3):655-664) several times on ramdomly picked samples and with 16S rRNA gene copy number corrected rarefaction (rarefy_rrna).
+
 #### proportionality
 
 Calculate proportionality on a phyloseq object or otu-table. Proposed by

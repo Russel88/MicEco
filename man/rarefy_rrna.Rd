@@ -13,7 +13,7 @@ rarefy_rrna.matrix(x, reads, copy.database, seed = NULL, trim)
 rarefy_rrna.phyloseq(x, reads, copy.database, seed = NULL, trim)
 }
 \arguments{
-\item{x}{A phyloseq object OR an OTU-table with taxa as columns and OTU names as colnames. OTUs should be picked against the Greengenes v13.5 database, unless a another copy number database is provided.}
+\item{x}{A phyloseq object OR an OTU-table with taxa as columns and OTU names as colnames. OTUs should be picked against the Greengenes v13.5 database, unless another copy number database is provided.}
 
 \item{reads}{Number of reads to sample.}
 

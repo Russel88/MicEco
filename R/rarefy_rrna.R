@@ -1,7 +1,7 @@
 #' Rarefy and normalize based on 16S rRNA copy numbers
 #'
 #' Rarefy an OTU-table with the probability of the inverse 16S rRNA copy numbers: The result is a normalized AND copy number corrected OTU-table.
-#' @param x A phyloseq object OR an OTU-table with taxa as columns and OTU names as colnames. OTUs should be picked against the Greengenes v13.5 database, unless a another copy number database is provided.
+#' @param x A phyloseq object OR an OTU-table with taxa as columns and OTU names as colnames. OTUs should be picked against the Greengenes v13.5 database, unless another copy number database is provided.
 #' @param reads Number of reads to sample. 
 #' @param copy.database What Greengenes database version was used to find OTUs. Atm only "v13.5" is available. Alternatively, A dataframe with two variables: "ID" is the OTU id matched by names in x and "Copy" is the copy number.
 #' @param seed Random seed for sampling.
