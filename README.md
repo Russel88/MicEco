@@ -6,6 +6,9 @@ MicEco: Various functions for analysis for microbial community data
     library(devtools)
     install_github("Russel88/MicEco")
 
+### Citation
+[![DOI](https://zenodo.org/badge/83547545.svg)](https://zenodo.org/badge/latestdoi/83547545)
+
 #### community\_rrna
 
 Calculate the average 16S rRNA copy number of the OTUs in a
