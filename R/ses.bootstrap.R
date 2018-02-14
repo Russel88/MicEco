@@ -6,7 +6,7 @@
 #' @param zmat Symmetric matrix with z-values
 #' @param sampleGroups Vector with the grouping of the samples in the same order as in zmat
 #' @param R Number of bootstraps
-#' @param probs The quantiles to return. Default is 95% quantiles and the median.
+#' @param probs The quantiles to return. Default is 95\% quantiles and the median.
 #' @return Quantiles given by probs, and adjusted p-values testing whether estimate is above or below zero
 #' @export
 

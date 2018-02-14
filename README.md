@@ -9,6 +9,12 @@ MicEco: Various functions for analysis for microbial community data
 ### Citation
 [![DOI](https://zenodo.org/badge/83547545.svg)](https://zenodo.org/badge/latestdoi/83547545)
 
+#### UniFrac.multi
+
+With unrooted phylogenies UniFrac sets the root randomly on the tree. 
+The position of the root affects the results. 
+This function runs UniFrac multiple times in parallel, with different roots, and takes the average to smooth potential bias.
+
 #### community\_rrna
 
 Calculate the average 16S rRNA copy number of the OTUs in a

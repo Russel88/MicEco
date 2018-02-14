@@ -13,7 +13,7 @@ ses.bootstrap(zmat, sampleGroups, R = 10000, probs = c(0.025, 0.5, 0.975))
 
 \item{R}{Number of bootstraps}
 
-\item{probs}{The quantiles to return. Default is 95% quantiles and the median.}
+\item{probs}{The quantiles to return. Default is 95\% quantiles and the median.}
 }
 \value{
 Quantiles given by probs, and adjusted p-values testing whether estimate is above or below zero
