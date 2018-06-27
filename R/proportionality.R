@@ -26,10 +26,17 @@ proportionality <- function(x,delta=1){
     otu_zc[,k] <- col_new
   }
   
+  if(any(otu_zc <= 0)) stop("OTU table should only contain positive values")
+  
   # CLR transformation
-  otu_gm <- apply(otu_zc,2,function(y) prod(y)^(1/length(y)))
-  if(any(otu_gm == 0)) warning("Geometric means has zeroes, choose higher delta or trim OTUs")
-  if(any(is.infinite(otu_gm))) warning("Geometric means has infinities, choose lower delta or rarefy")
+  gm_mean = function(x){
+    if(any(x < 0, na.rm = TRUE)){
+      stop("Negative values not allowed")
+    }
+    exp(mean(log(x)))
+  }
+  
+  otu_gm <- apply(otu_zc,2,function(y) gm_mean(y))
   otu_log <- t(log(t(otu_zc)/otu_gm))
   
   # Proportionality
