@@ -15,16 +15,8 @@ proportionality <- function(x,delta=1){
     if(!taxa_are_rows(x)) otu <- t(otu_table(x)) 
   }
   
-  mat <- matrix(nrow=nrow(otu),ncol=nrow(otu)) 
-  
   # Zero correction
-  otu_zc <- matrix(nrow=nrow(otu),ncol=ncol(otu))  
-  for(k in 1:ncol(otu)){
-    samp <- as.data.frame(otu[,k])
-    z <- sum(samp==0)
-    col_new <- apply(samp,1,function(x) ifelse(x==0,delta,(1-(z*delta)/sum(samp))*x))
-    otu_zc[,k] <- col_new
-  }
+  otu_zc <- apply(otu, 2, function(y) sapply(y,function(x) ifelse(x==0,delta,(1-(sum(y==0)*delta)/sum(y))*x)))
   
   if(any(otu_zc <= 0)) stop("OTU table should only contain positive values")
   
@@ -40,14 +32,15 @@ proportionality <- function(x,delta=1){
   otu_log <- t(log(t(otu_zc)/otu_gm))
   
   # Proportionality
-  for(i in 1:nrow(otu)){
-    for(j in 1:nrow(otu)){
-      if(i==j) prop <- 1
-      if(i != j) prop <- (2*cov(otu_log[i,],otu_log[j,]))/(var(otu_log[i,])+var(otu_log[j,]))
-      mat[i,j] <- prop
+  mat <- matrix(0,nrow=nrow(otu),ncol=nrow(otu))
+  for(i in 1:(nrow(otu)-1)){
+    for(j in (i+1):nrow(otu)){
+      mat[i,j] <- (2*cov(otu_log[i,],otu_log[j,]))/(var(otu_log[i,])+var(otu_log[j,]))
     }
   }
   rownames(mat) <- rownames(otu)
   colnames(mat) <- rownames(otu)
-  return(mat)
+  mat <- t(mat)+mat
+  diag(mat) <- 1
+  return(as.dist(mat))
 }
