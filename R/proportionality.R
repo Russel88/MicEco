@@ -42,5 +42,5 @@ proportionality <- function(x,delta=1){
   colnames(mat) <- rownames(otu)
   mat <- t(mat)+mat
   diag(mat) <- 1
-  return(as.dist(mat))
+  return(mat)
 }
