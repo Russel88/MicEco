@@ -1,3 +1,6 @@
+[![Travis Build
+Status](https://travis-ci.org/Russel88/MicEco.svg?branch=master)](https://travis-ci.org/Russel88/MicEco)
+
 MicEco: Various functions for analysis for microbial community data
 -------------------------------------------------------------------
 

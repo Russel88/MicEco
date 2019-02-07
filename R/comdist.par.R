@@ -39,7 +39,8 @@ comdist.par <- function (comm, dis, abundance.weighted = FALSE, cores = 1, progr
     cl <- makeCluster(cores)
     registerDoSNOW(cl)
   }
-   
+  
+  l <- NULL 
   comdist <- foreach(l = 1:(N - 1),.combine = cbind, .options.snow = opts) %dopar% {
     comdist.sub <- as.numeric(rep(NA,N))
     for (k in 2:N) {

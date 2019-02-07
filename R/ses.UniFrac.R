@@ -71,6 +71,8 @@ ses.UniFrac <- function (physeq, method = "taxa.labels", fixedmar = "both", shuf
     cl <- makeCluster(cores)
     registerDoSNOW(cl)
   }
+  
+  i <- NULL
   unifrac.rand <- foreach(i = 1:runs, .packages = "phyloseq", .options.snow = opts) %dopar% {
     
     if(method == "taxa.labels"){

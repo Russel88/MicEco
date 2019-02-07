@@ -30,6 +30,8 @@ ses.comdistnt2(samp, dis, method = "quasiswap", fixedmar = "both",
 
 \item{abundance.weighted}{Should mean nearest taxon distances for each species be weighted by species abundance? (default = FALSE)}
 
+\item{exclude.conspecifics}{Should conspecific taxa in different communities be exclude from MNTD calculations? (default = FALSE)}
+
 \item{runs}{Number of randomizations}
 
 \item{cores}{Number of cores to use for parallel computing}

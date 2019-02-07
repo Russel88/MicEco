@@ -1,1 +1,0 @@
-This dir contains files precalculated for the PICRUSt pipeline (https://picrust.github.io/picrust/picrust_precalculated_files.html)

@@ -11,6 +11,7 @@
 #' @param burnin Number of null communities discarded before proper analysis in sequential ("swap", "tswap") methods.
 #' @param thin Number of discarded permuted matrices between two evaluations in sequential ("swap", "tswap") methods.
 #' @param abundance.weighted Should mean nearest taxon distances for each species be weighted by species abundance? (default = FALSE)
+#' @param exclude.conspecifics Should conspecific taxa in different communities be exclude from MNTD calculations? (default = FALSE)
 #' @param runs Number of randomizations
 #' @param cores Number of cores to use for parallel computing
 #' @details See permat (vegan) for detailed options

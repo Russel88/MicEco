@@ -10,6 +10,8 @@
 #' @return A distance object with the average \code{UniFrac} distances 
 #' @import foreach parallel doSNOW phyloseq
 #' @importFrom abind abind
+#' @importFrom stats as.dist cov dnorm p.adjust pbeta quantile sd var weighted.mean
+#' @importFrom utils combn read.table setTxtProgressBar txtProgressBar
 #' @export
 UniFrac.multi <- function(physeq, R = 100, seed = 42, cores = 1, ...){
   
@@ -31,6 +33,7 @@ UniFrac.multi <- function(physeq, R = 100, seed = 42, cores = 1, ...){
   opts <- list(progress = progress)
   
   # UniFracs
+  i <- NULL
   UFs <- foreach(i = 1:R, .packages = "phyloseq", .options.snow = opts) %dopar% {
     set.seed(seeds[i])
     UniFrac(physeq, ...)

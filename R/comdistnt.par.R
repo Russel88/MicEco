@@ -38,6 +38,7 @@ comdistnt.par <- function (comm, dis, abundance.weighted = FALSE, exclude.conspe
     registerDoSNOW(cl)
   }
   
+  i <- NULL
   comdisnt <- foreach (i = 1:(N-1),.combine = rbind, .options.snow = opts) %dopar% {
     
     comdisnt.sub <- as.numeric(rep(NA,N))
