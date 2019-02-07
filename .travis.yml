@@ -1,3 +1,4 @@
 language: r
 sudo: false
 r: devel
+use_bioc: true
