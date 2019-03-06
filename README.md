@@ -79,11 +79,19 @@ permatfull/permatswap from the vegan package
 
 #### comdist.par
 
-A parallel version of the comdist function from the picante package for significant speedup
+A parallel version of the comdist function from the picante package for significant speedup on large datasets
 
 #### comdistnt.par
 
-A parallel version of the comdistnt function from the picante package for significant speedup
+A parallel version of the comdistnt function from the picante package for significant speedup on large datasets
+
+#### ses.mpd.par
+
+A parallel version of the ses.mpd function from the picante package for significant speedup on large datasets
+
+#### ses.mntd.par
+
+A parallel version of the ses.mntd function from the picante package for significant speedup on large datasets
 
 #### ses.permtest
 
@@ -94,6 +102,6 @@ Permutation test of z-matrix from `ses.comdist`, `ses.comdist2`, `ses.comdistnt`
 `rarefy_rrna`: Some code is from vegan licensed under GPL-2
 (<https://github.com/vegandevs/vegan>)
 
-`comdist.par`, `comdistnt.par`, `ses.comdist`, `ses.comdist2`, `ses.comdistnt` and `ses.comdistnt2`: Some
+`ses.mpd.par`, `ses.mntd.par`, `comdist.par`, `comdistnt.par`, `ses.comdist`, `ses.comdist2`, `ses.comdistnt` and `ses.comdistnt2`: Some
 code is from picante licensed under GPL-2
 (<https://github.com/skembel/picante>)
