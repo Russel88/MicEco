@@ -23,6 +23,8 @@ This function runs UniFrac multiple times in parallel, with different roots, and
 Calculate the average 16S rRNA copy number of the OTUs in a
 community/sample
 
+Please cite [Schostag et al. 2019 ISMEJ](https://doi.org/10.1038/s41396-019-0351-x) if you use this function.
+
 #### rarefy\_rrna
 
 Combines rarefaction with 16S rRNA copy number correction. It rarefies
