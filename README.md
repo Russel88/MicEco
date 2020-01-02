@@ -12,6 +12,14 @@ MicEco: Various functions for analysis for microbial community data
 ### Citation
 [![DOI](https://zenodo.org/badge/83547545.svg)](https://zenodo.org/badge/latestdoi/83547545)
 
+#### adonis_OmegaSq
+
+Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models
+
+#### rcurve
+
+Rarefaction curve (theoretical and fast) from a phyloseq object. Output ready for plotting in ggplot2
+
 #### UniFrac.multi
 
 With unrooted phylogenies UniFrac sets the root randomly on the tree. 
