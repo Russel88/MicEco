@@ -4,8 +4,7 @@
 \alias{comdist.par}
 \title{Inter-community mean pairwise distance}
 \usage{
-comdist.par(comm, dis, abundance.weighted = FALSE, cores = 1,
-  progress = TRUE)
+comdist.par(comm, dis, abundance.weighted = FALSE, cores = 1, progress = TRUE)
 }
 \arguments{
 \item{comm}{Community data matrix with samples as rows}

@@ -4,8 +4,15 @@
 \alias{neutral.rand}
 \title{Fit Sloan et al. (2006) Neutral Model several times}
 \usage{
-neutral.rand(data, n = NULL, s = NULL, rRNA = NULL, rn = NULL,
-  cores = 1, naming = NULL)
+neutral.rand(
+  data,
+  n = NULL,
+  s = NULL,
+  rRNA = NULL,
+  rn = NULL,
+  cores = 1,
+  naming = NULL
+)
 }
 \arguments{
 \item{data}{A phyloseq object}

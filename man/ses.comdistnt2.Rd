@@ -4,10 +4,21 @@
 \alias{ses.comdistnt2}
 \title{Standardized effect size of inter-community MNTD (betaMNTD, betaNTI)}
 \usage{
-ses.comdistnt2(samp, dis, method = "quasiswap", fixedmar = "both",
-  shuffle = "both", strata = NULL, mtype = "count", burnin = 0,
-  thin = 1, abundance.weighted = FALSE, exclude.conspecifics = FALSE,
-  runs = 999, cores = 1)
+ses.comdistnt2(
+  samp,
+  dis,
+  method = "quasiswap",
+  fixedmar = "both",
+  shuffle = "both",
+  strata = NULL,
+  mtype = "count",
+  burnin = 0,
+  thin = 1,
+  abundance.weighted = FALSE,
+  exclude.conspecifics = FALSE,
+  runs = 999,
+  cores = 1
+)
 }
 \arguments{
 \item{samp}{Community data matrix with samples as rows}

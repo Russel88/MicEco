@@ -5,8 +5,7 @@
 \title{Rarefaction curve on phyloseq object
 Theoretical richness with vegan's rarefy function}
 \usage{
-rcurve(physeq, subsamp = 10^c(1:5), trim = TRUE,
-  add_sample_data = TRUE)
+rcurve(physeq, subsamp = 10^c(1:5), trim = TRUE, add_sample_data = TRUE)
 }
 \arguments{
 \item{physeq}{phyloseq object}

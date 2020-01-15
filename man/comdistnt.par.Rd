@@ -4,8 +4,14 @@
 \alias{comdistnt.par}
 \title{Inter-community mean nearest taxon distance}
 \usage{
-comdistnt.par(comm, dis, abundance.weighted = FALSE,
-  exclude.conspecifics = FALSE, cores = 1, progress = TRUE)
+comdistnt.par(
+  comm,
+  dis,
+  abundance.weighted = FALSE,
+  exclude.conspecifics = FALSE,
+  cores = 1,
+  progress = TRUE
+)
 }
 \arguments{
 \item{comm}{Community data matrix with samples as rows}

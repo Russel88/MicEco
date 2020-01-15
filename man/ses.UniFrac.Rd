@@ -4,10 +4,20 @@
 \alias{ses.UniFrac}
 \title{Standardized effect size of unifrac}
 \usage{
-ses.UniFrac(physeq, method = "taxa.labels", fixedmar = "both",
-  shuffle = "both", strata = NULL, mtype = "count", burnin = 0,
-  thin = 1, weighted = TRUE, normalized = TRUE, runs = 99,
-  cores = 1)
+ses.UniFrac(
+  physeq,
+  method = "taxa.labels",
+  fixedmar = "both",
+  shuffle = "both",
+  strata = NULL,
+  mtype = "count",
+  burnin = 0,
+  thin = 1,
+  weighted = TRUE,
+  normalized = TRUE,
+  runs = 99,
+  cores = 1
+)
 }
 \arguments{
 \item{physeq}{phyloseq-class, containing at minimum a phylogenetic tree and otu table}

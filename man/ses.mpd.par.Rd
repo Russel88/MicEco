@@ -4,10 +4,16 @@
 \alias{ses.mpd.par}
 \title{Standardized effect size of MPD}
 \usage{
-ses.mpd.par(samp, dis, null.model = c("taxa.labels", "richness",
-  "frequency", "sample.pool", "phylogeny.pool", "independentswap",
-  "trialswap"), abundance.weighted = FALSE, runs = 999,
-  iterations = 1000, cores = 1)
+ses.mpd.par(
+  samp,
+  dis,
+  null.model = c("taxa.labels", "richness", "frequency", "sample.pool",
+    "phylogeny.pool", "independentswap", "trialswap"),
+  abundance.weighted = FALSE,
+  runs = 999,
+  iterations = 1000,
+  cores = 1
+)
 }
 \arguments{
 \item{samp}{Community data matrix with samples as rows}

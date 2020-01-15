@@ -4,9 +4,20 @@
 \alias{ses.comdist2}
 \title{Standardized effect size of inter-community MPD (betaMPD, betaNRI)}
 \usage{
-ses.comdist2(samp, dis, method = "quasiswap", fixedmar = "both",
-  shuffle = "both", strata = NULL, mtype = "count", burnin = 0,
-  thin = 1, abundance.weighted = FALSE, runs = 999, cores = 1)
+ses.comdist2(
+  samp,
+  dis,
+  method = "quasiswap",
+  fixedmar = "both",
+  shuffle = "both",
+  strata = NULL,
+  mtype = "count",
+  burnin = 0,
+  thin = 1,
+  abundance.weighted = FALSE,
+  runs = 999,
+  cores = 1
+)
 }
 \arguments{
 \item{samp}{Community data matrix with samples as rows}

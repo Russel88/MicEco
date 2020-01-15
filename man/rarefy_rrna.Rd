@@ -6,8 +6,7 @@
 \alias{rarefy_rrna.phyloseq}
 \title{Rarefy and normalize based on 16S rRNA copy numbers}
 \usage{
-rarefy_rrna(x, reads, copy.database = "v13.5", seed = NULL,
-  trim = FALSE)
+rarefy_rrna(x, reads, copy.database = "v13.5", seed = NULL, trim = FALSE)
 
 rarefy_rrna.matrix(x, reads, copy.database, seed = NULL, trim)
 

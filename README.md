@@ -20,6 +20,10 @@ Calculate the unbiased effect size estimation (partial) omega-squared for adonis
 
 Rarefaction curve (theoretical and fast) from a phyloseq object. Output ready for plotting in ggplot2
 
+#### ps_refactor
+
+Relevel the Sample variable in a psmelted phyloseq object, such that similar samples are plotted together with ggplot barcharts.
+
 #### UniFrac.multi
 
 With unrooted phylogenies UniFrac sets the root randomly on the tree. 
