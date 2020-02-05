@@ -37,6 +37,7 @@ rcurve <- function(physeq, subsamp = 10^c(1:5), trim = TRUE, add_sample_data = T
     # To a data.frame
     df <- as.data.frame.table(mat_new)
     colnames(df) <- c("Sample", "Reads", "Richness")
+    df$Reads <- as.numeric(as.character(df$Reads))
     
     if(trim){
         df <- na.omit(df)
