@@ -12,6 +12,11 @@ MicEco: Various functions for analysis for microbial community data
 ### Citation
 [![DOI](https://zenodo.org/badge/83547545.svg)](https://zenodo.org/badge/latestdoi/83547545)
 
+
+#### phylo_euler
+
+Make Euler (Venn) diagram of shared taxa (ASVs, OTUs) across sample groups from a phyloseq object. Overlap can be weighted by relative abundance
+
 #### adonis_OmegaSq
 
 Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models

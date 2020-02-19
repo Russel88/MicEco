@@ -6,6 +6,7 @@
 #' @param psmelted A phyloseq object melted into a data.frame with psmelt
 #' @param ... Arguments passed to hclust
 #' @importFrom reshape2 dcast
+#' @importFrom stats dist hclust
 #' @export
 ps_refactor <- function(psmelted, ...){
     if(!is(psmelted, "data.frame")){
