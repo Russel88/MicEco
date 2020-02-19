@@ -1,20 +1,20 @@
-#' Make Euler (Venn) diagram of shared taxa (ASVs, OTUs) across sample groups
+#' Make Euler diagram of shared taxa (ASVs, OTUs) across sample groups
 #'
-#' Make Euler (Venn) diagram of shared taxa (ASVs, OTUs) across sample groups from a phyloseq object. Overlap can be weighted by relative abundance
+#' Make Euler diagram of shared taxa (ASVs, OTUs) across sample groups from a phyloseq object. Overlap can be weighted by relative abundance
 #' @param ps A phyloseq object
 #' @param group The grouping factor. Should match variable in sample_data(ps)
 #' @param weight If TRUE, the overlaps are weighted by abundance
-#' @param type "percent" or "count"
+#' @param type "percent" or "counts"
 #' @param relative Should abundances be made relative
 #' @param ... Additional arguments
-#' @keywords venn euler diagram
+#' @keywords euler diagram
 #' @return An euler plot
 #' @import phyloseq
 #' @import eulerr
 #' @importFrom stats aggregate as.formula
 #' @export
 
-phylo_euler <- function(ps, group, weight = FALSE, type = "percent", relative = TRUE, ...){
+ps_euler <- function(ps, group, weight = FALSE, type = "percent", relative = TRUE, ...){
     
     if(relative){
         ps <- transform_sample_counts(ps, function(x) x/sum(x))
@@ -30,9 +30,9 @@ phylo_euler <- function(ps, group, weight = FALSE, type = "percent", relative = 
     ps_mat_bin <- (ps_mat>0)*1
     
     if(weight){
-        df <- euler(ps_mat_bin, weights = rowMeans(ps_mat))
+        df <- eulerr::euler(ps_mat_bin, weights = rowMeans(ps_mat))
     } else {
-        df <- euler(ps_mat_bin)
+        df <- eulerr::euler(ps_mat_bin)
     }
     
     plot(df, quantities = list(type=type), ...)
