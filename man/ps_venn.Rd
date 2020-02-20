@@ -4,12 +4,22 @@
 \alias{ps_venn}
 \title{Make Venn diagram of shared taxa (ASVs, OTUs) across sample groups}
 \usage{
-ps_venn(ps, group, weight = FALSE, type = "percent", relative = TRUE, ...)
+ps_venn(
+  ps,
+  group,
+  fraction = 0,
+  weight = FALSE,
+  type = "percent",
+  relative = TRUE,
+  ...
+)
 }
 \arguments{
 \item{ps}{A phyloseq object}
 
 \item{group}{The grouping factor. Should match variable in sample_data(ps)}
+
+\item{fraction}{The fraction (0 to 1) of samples in a group in which the taxa should be present to be included in the count.}
 
 \item{weight}{If TRUE, the overlaps are weighted by abundance}
 
