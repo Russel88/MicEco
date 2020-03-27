@@ -1,6 +1,6 @@
 Package: MicEco
 Title: Various functions for microbial community data
-Version: 0.9.7
+Version: 0.9.8
 Authors@R: person("Jakob", "Russel", email = "russel2620@gmail.com", role = c("aut", "cre"))
 Description: Collection of functions for microbiome analyses. E.g. fitting neutral models and standardized effect sizes of phylogenetic beta diversities, and much more.
 Depends: R (>= 3.2.5)

@@ -24,6 +24,10 @@ Make Euler diagram of shared taxa (ASVs, OTUs) across sample groups from a phylo
 
 Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models
 
+#### WdS.test
+
+Wd* - robust distance-based multivariate analysis of variance (https://doi.org/10.1186/s40168-019-0659-9). This code is taken from https://github.com/alekseyenko/WdStar/. An alternative to PERMANOVA.
+
 #### rcurve
 
 Rarefaction curve (theoretical and fast) from a phyloseq object. Output ready for plotting in ggplot2
