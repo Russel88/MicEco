@@ -20,6 +20,10 @@ Make Venn diagram of shared taxa (ASVs, OTUs) across sample groups from a phylos
 
 Make Euler diagram of shared taxa (ASVs, OTUs) across sample groups from a phyloseq object. Overlap can be weighted by relative abundance
 
+#### ps_pheatmap
+
+Make pretty heatmap directly from a phyloseq object. Built-in agglomoration, filtering, ordering, scaling, transformation, and annotation.
+
 #### adonis_OmegaSq
 
 Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models

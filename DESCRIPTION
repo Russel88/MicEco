@@ -1,10 +1,10 @@
 Package: MicEco
 Title: Various functions for microbial community data
-Version: 0.9.8
+Version: 0.9.9
 Authors@R: person("Jakob", "Russel", email = "russel2620@gmail.com", role = c("aut", "cre"))
 Description: Collection of functions for microbiome analyses. E.g. fitting neutral models and standardized effect sizes of phylogenetic beta diversities, and much more.
 Depends: R (>= 3.2.5)
-Imports: stats, utils, phyloseq, foreach, doSNOW, picante, vegan, snow, bbmle, Hmisc, abind, reshape2, eulerr
+Imports: stats, utils, phyloseq, foreach, doSNOW, picante, vegan, snow, bbmle, Hmisc, abind, reshape2, eulerr, pheatmap
 License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 LazyData: true
