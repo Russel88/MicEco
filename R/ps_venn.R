@@ -21,7 +21,11 @@ ps_venn <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", r
         ps <- transform_sample_counts(ps, function(x) x/sum(x))
     }
     
-    ps_melted <- reshape2::melt(otu_table(ps))
+    if(taxa_are_rows(ps)){
+        ps_melted <- reshape2::melt(otu_table(ps))
+    } else {
+        ps_melted <- reshape2::melt(t(otu_table(ps)))
+    }
     ps_melted <- merge(ps_melted, sample_data(ps), by.x = "Var2", by.y = "row.names")
 
     ps_agg <- aggregate(as.formula(paste("value ~ Var1 +",group)), data = ps_melted, function(x) (sum(x > 0)/length(x) >= fraction) * mean(x))
