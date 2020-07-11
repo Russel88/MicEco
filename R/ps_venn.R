@@ -7,6 +7,7 @@
 #' @param weight If TRUE, the overlaps are weighted by abundance
 #' @param type "percent" or "counts"
 #' @param relative Should abundances be made relative
+#' @param plot If TRUE return a plot, if FALSE return a vector with number of shared and unique taxa
 #' @param ... Additional arguments
 #' @keywords venn diagram
 #' @return An venn plot
@@ -15,7 +16,7 @@
 #' @importFrom stats aggregate as.formula
 #' @export
 
-ps_venn <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", relative = TRUE, ...){
+ps_venn <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", relative = TRUE, plot = TRUE, ...){
     
     if(relative){
         ps <- transform_sample_counts(ps, function(x) x/sum(x))
@@ -41,6 +42,9 @@ ps_venn <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", r
         df <- eulerr::venn(ps_mat_bin)
     }
     
-    plot(df, quantities = list(type=type), ...)
-    
+    if(plot){
+        plot(df, quantities = list(type=type), ...)
+    } else {
+        return(df$original.values)
+    }
 }

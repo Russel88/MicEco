@@ -11,6 +11,7 @@ ps_venn(
   weight = FALSE,
   type = "percent",
   relative = TRUE,
+  plot = TRUE,
   ...
 )
 }
@@ -26,6 +27,8 @@ ps_venn(
 \item{type}{"percent" or "counts"}
 
 \item{relative}{Should abundances be made relative}
+
+\item{plot}{If TRUE return a plot, if FALSE return a vector with number of shared and unique taxa}
 
 \item{...}{Additional arguments}
 }
