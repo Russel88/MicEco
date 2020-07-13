@@ -12,6 +12,11 @@ MicEco: Various functions for analysis for microbial community data
 ### Citation
 [![DOI](https://zenodo.org/badge/83547545.svg)](https://zenodo.org/badge/latestdoi/83547545)
 
+## Phyloseq extensions
+#### ps_prune
+
+Prune taxa (ASVs, OTUs) from a phyloseq object based on their abundance and/or prevalence
+
 #### ps_venn
 
 Make Venn diagram of shared taxa (ASVs, OTUs) across sample groups from a phyloseq object. Overlap can be weighted by relative abundance
@@ -24,6 +29,11 @@ Make Euler diagram of shared taxa (ASVs, OTUs) across sample groups from a phylo
 
 Make pretty heatmap directly from a phyloseq object. Built-in agglomoration, filtering, ordering, scaling, transformation, and annotation.
 
+#### rcurve
+
+Rarefaction curve (theoretical and fast) from a phyloseq object. Output ready for plotting in ggplot2
+
+## Miscellaneous functions
 #### adonis_OmegaSq
 
 Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models
@@ -32,20 +42,20 @@ Calculate the unbiased effect size estimation (partial) omega-squared for adonis
 
 Wd* - robust distance-based multivariate analysis of variance (https://doi.org/10.1186/s40168-019-0659-9). This code is taken from https://github.com/alekseyenko/WdStar/. An alternative to PERMANOVA.
 
-#### rcurve
-
-Rarefaction curve (theoretical and fast) from a phyloseq object. Output ready for plotting in ggplot2
-
-#### ps_refactor
-
-Relevel the Sample variable in a psmelted phyloseq object, such that similar samples are plotted together with ggplot barcharts.
-
 #### UniFrac.multi
 
 With unrooted phylogenies UniFrac sets the root randomly on the tree. 
 The position of the root affects the results. 
 This function runs UniFrac multiple times in parallel, with different roots, and takes the average to smooth potential bias.
 
+#### proportionality
+
+Calculate proportionality on a phyloseq object or otu-table. Proposed by
+Lovell et al. 2016 Proportionality: a valid alternative to correlation
+for relative data
+(<http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004075>)
+
+## 16S rRNA gene copy number analyses
 #### community\_rrna
 
 Calculate the average 16S rRNA copy number of the OTUs in a
@@ -60,6 +70,7 @@ counts with a probability of the inverse 16S rRNA copy number, such that
 besides rarefying the read counts the otu-table will be corrected for
 the varying 16S rRNA copy numbers of the OTUs.
 
+## Neutral model
 #### neutral.fit
 
 Fit neutral model developed by Sloan et al. (2006, Environ Microbiol 8(4):732-740) and implemented by Burns et al. (2015, ISME J 10(3):655-664).
@@ -68,13 +79,7 @@ Fit neutral model developed by Sloan et al. (2006, Environ Microbiol 8(4):732-74
 
 Fit neutral model developed by Sloan et al. (2006, Environ Microbiol 8(4):732-740) and implemented by Burns et al. (2015, ISME J 10(3):655-664) several times on ramdomly picked samples and with 16S rRNA gene copy number corrected rarefaction (rarefy_rrna).
 
-#### proportionality
-
-Calculate proportionality on a phyloseq object or otu-table. Proposed by
-Lovell et al. 2016 Proportionality: a valid alternative to correlation
-for relative data
-(<http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004075>)
-
+## Beta diversity null models
 #### ses.UniFrac
 
 Standardized effect size of UniFrac, based on null models created with
@@ -127,7 +132,7 @@ A parallel version of the ses.mntd function from the picante package for signifi
 
 Permutation test of z-matrix from `ses.comdist`, `ses.comdist2`, `ses.comdistnt`, `ses.comdistnt2` and `ses.UniFrac`.
 
-### Copyright notice
+## Copyright notice
 
 `rarefy_rrna`: Some code is from vegan licensed under GPL-2
 (<https://github.com/vegandevs/vegan>)

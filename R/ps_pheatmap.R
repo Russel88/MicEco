@@ -39,7 +39,7 @@ ps_pheatmap <- function(ps, annot_samp=NULL, annot_taxa=NULL, relative=TRUE, log
     
     # Filter
     if(min_samples > 1 | min_reads > 1 | min_abundance > 0){
-        try(ps <- DAtest::preDA(ps, min.samples = min_samples, min.reads = min_reads, min.abundance = min_abundance),
+        try(ps <- ps_prune(ps, min.samples = min_samples, min.reads = min_reads, min.abundance = min_abundance),
             silent = TRUE)
     }
     
