@@ -35,6 +35,10 @@ Make pretty heatmap directly from a phyloseq object. Built-in agglomoration, fil
 
 Rarefaction curve (theoretical and fast) from a phyloseq object. Output ready for plotting in ggplot2
 
+#### ps_tax_clean
+
+Clean tax_table such that NAs are replaced with names of the most specific known taxonomy prefixed with the rank.
+
 ## Miscellaneous functions
 #### adonis_OmegaSq
 
