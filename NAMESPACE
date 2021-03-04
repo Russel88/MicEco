@@ -3,6 +3,7 @@
 export(UniFrac.multi)
 export(WdS.test)
 export(adonis_OmegaSq)
+export(clr)
 export(comdist.par)
 export(comdistnt.par)
 export(community_rrna)

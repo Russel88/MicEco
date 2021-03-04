@@ -40,6 +40,10 @@ Rarefaction curve (theoretical and fast) from a phyloseq object. Output ready fo
 Clean tax_table such that NAs are replaced with names of the most specific known taxonomy prefixed with the rank.
 
 ## Miscellaneous functions
+#### clr
+
+CLR transformation of community matrix, with multiplicative zero replacement
+
 #### adonis_OmegaSq
 
 Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models
