@@ -28,7 +28,7 @@ ps_euler(
 
 \item{relative}{Should abundances be made relative}
 
-\item{plot}{If TRUE return a plot, if FALSE return a vector with number of shared and unique taxa}
+\item{plot}{If TRUE return a plot, if FALSE return a list with shared and unique taxa}
 
 \item{...}{Additional arguments}
 }

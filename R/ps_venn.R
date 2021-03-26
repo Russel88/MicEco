@@ -7,7 +7,7 @@
 #' @param weight If TRUE, the overlaps are weighted by abundance
 #' @param type "percent" or "counts"
 #' @param relative Should abundances be made relative
-#' @param plot If TRUE return a plot, if FALSE return a vector with number of shared and unique taxa
+#' @param plot If TRUE return a plot, if FALSE return a list with shared and unique taxa
 #' @param ... Additional arguments
 #' @keywords venn diagram
 #' @return An venn plot
@@ -33,6 +33,7 @@ ps_venn <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", r
     
     ps_mat <- reshape2::dcast(as.formula(paste("Var1 ~ ",group)), data = ps_agg, value.var = "value")
     
+    rownames(ps_mat) <- ps_mat[, 1]
     ps_mat <- ps_mat[, -1]
     ps_mat_bin <- (ps_mat>0)*1
     
@@ -45,6 +46,17 @@ ps_venn <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", r
     if(plot){
         plot(df, quantities = list(type=type), ...)
     } else {
-        return(df$original.values)
+        singles <- apply(ps_mat_bin, 2, function(x) names(x[x > 0]))
+        combis <- do.call(c, lapply(2:ncol(ps_mat), 
+                                    function(k) lapply(lapply(1:(ncol(combn(1:ncol(ps_mat_bin), m = k))),
+                                                              function(y) ps_mat_bin[, combn(1:ncol(ps_mat_bin), m = k)[, y]]),
+                                                       function(x) rownames(x[rowSums(x) >= k, ]))))
+        
+        names(combis) <- do.call(c, lapply(2:ncol(ps_mat), function(k) apply(combn(colnames(ps_mat_bin), m = k), 2, function(x) paste(x, collapse = " & "))))
+        combined <- c(lapply(seq_along(singles), function(x) setdiff(singles[[x]], do.call(c, singles[-x]))),
+                      lapply(seq_along(combis)[1:(length(combis)-1)], function(x) setdiff(combis[[x]], do.call(c, combis[-x]))),
+                      combis[length(combis)])
+        names(combined) <- c(names(singles), names(combis))
+        return(combined)
     }
 }
