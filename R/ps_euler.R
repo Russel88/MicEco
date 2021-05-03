@@ -37,26 +37,43 @@ ps_euler <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", 
     ps_mat <- ps_mat[, -1]
     ps_mat_bin <- (ps_mat>0)*1
     
-    if(weight){
-        df <- eulerr::euler(ps_mat_bin, weights = rowMeans(ps_mat))
-    } else {
-        df <- eulerr::euler(ps_mat_bin)
-    }
-    
     if(plot){
+        if(weight){
+            df <- eulerr::euler(ps_mat_bin, weights = rowMeans(ps_mat))
+        } else {
+            df <- eulerr::euler(ps_mat_bin)
+        }
         plot(df, quantities = list(type=type), ...)
     } else {
-        singles <- apply(ps_mat_bin, 2, function(x) names(x[x > 0]))
-        combis <- do.call(c, lapply(2:ncol(ps_mat), 
-                                    function(k) lapply(lapply(1:(ncol(combn(1:ncol(ps_mat_bin), m = k))),
-                                                              function(y) ps_mat_bin[, combn(1:ncol(ps_mat_bin), m = k)[, y]]),
-                                                       function(x) rownames(x[rowSums(x) >= k, ]))))
+        # Find taxa in all combinations
+        combis <- lapply(2:ncol(ps_mat), function(k) lapply(lapply(1:(ncol(combn(1:ncol(ps_mat_bin), m = k))),
+               function(y) ps_mat_bin[, combn(1:ncol(ps_mat_bin), m = k)[, y]]),
+               function(x) rownames(x[rowSums(x) >= k, , drop=FALSE])))
         
-        names(combis) <- do.call(c, lapply(2:ncol(ps_mat), function(k) apply(combn(colnames(ps_mat_bin), m = k), 2, function(x) paste(x, collapse = " & "))))
-        combined <- c(lapply(seq_along(singles), function(x) setdiff(singles[[x]], do.call(c, singles[-x]))),
-                      lapply(seq_along(combis)[1:(length(combis)-1)], function(x) setdiff(combis[[x]], do.call(c, combis[-x]))),
-                      combis[length(combis)])
-        names(combined) <- c(names(singles), names(combis))
-        return(combined)
+        # Find taxa in singles
+        singles <- apply(ps_mat_bin, 2, function(x) names(x[x > 0]))
+        
+        # Keep only those NOT in the same combination space
+        singles <- lapply(seq_along(singles), function(x) setdiff(singles[[x]], do.call(c, singles[-x])))
+        combis <- lapply(combis, function(cc) lapply(seq_along(cc), function(x) setdiff(cc[[x]], do.call(c, cc[-x]))))
+        
+        # Names
+        names(singles) <- colnames(ps_mat_bin)
+        for(i in 2:ncol(ps_mat)){
+            names(combis[[i-1]]) <- apply(combn(colnames(ps_mat_bin), m = i), 2, function(x) paste(x, collapse = "__"))
+        }
+        
+        # Recursively go through combination space from complex to simple to keep only those in unique combinations
+        combis <- rev(combis)
+        combis_new <- list()
+        for(i in seq_along(combis)){
+            if(i == 1) {
+                combis_new[[i]] <- combis[[i]]
+            } else {
+                combis_new[[i]] <- lapply(combis[[i]], function(x) setdiff(x, unlist(combis_new)))
+            }
+        }
+        combis_new <- c(singles, unlist(combis_new, recursive = FALSE))
+        return(combis_new[sapply(combis_new, function(x) length(x)>0)])
     }
 }
