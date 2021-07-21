@@ -1,11 +1,13 @@
 #' Make Euler diagram of shared taxa (ASVs, OTUs) across sample groups
 #'
 #' Make Euler diagram of shared taxa (ASVs, OTUs) across sample groups from a phyloseq object. Overlap can be weighted by relative abundance
+#' 
+#' Any further arguments to this function are passed to the plot.euler function from the eulerr package. This can be used to change colors, fonts, and other graphical parameters.
+#' For example: ps_euler(phy, "Time", quantities = list(type=c("percent","counts"), font = 2), labels = list(cex = 2), col = "red", fill = c("red","blue","green"))
 #' @param ps A phyloseq object
 #' @param group The grouping factor. Should match variable in sample_data(ps)
 #' @param fraction The fraction (0 to 1) of samples in a group in which the taxa should be present to be included in the count.
 #' @param weight If TRUE, the overlaps are weighted by abundance
-#' @param type "percent" or "counts"
 #' @param relative Should abundances be made relative
 #' @param plot If TRUE return a plot, if FALSE return a list with shared and unique taxa
 #' @param ... Additional arguments
@@ -16,7 +18,7 @@
 #' @importFrom stats aggregate as.formula
 #' @export
 
-ps_euler <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", relative = TRUE, plot = TRUE, ...){
+ps_euler <- function(ps, group, fraction = 0, weight = FALSE, relative = TRUE, plot = TRUE, ...){
     
     if(relative){
         ps <- transform_sample_counts(ps, function(x) x/sum(x))
@@ -43,7 +45,7 @@ ps_euler <- function(ps, group, fraction = 0, weight = FALSE, type = "percent", 
         } else {
             df <- eulerr::euler(ps_mat_bin)
         }
-        plot(df, quantities = list(type=type), ...)
+        plot(df, ...)
     } else {
         # Find taxa in all combinations
         combis <- lapply(2:ncol(ps_mat), function(k) lapply(lapply(1:(ncol(combn(1:ncol(ps_mat_bin), m = k))),

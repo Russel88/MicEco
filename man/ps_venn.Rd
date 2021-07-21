@@ -9,7 +9,6 @@ ps_venn(
   group,
   fraction = 0,
   weight = FALSE,
-  type = "percent",
   relative = TRUE,
   plot = TRUE,
   ...
@@ -24,8 +23,6 @@ ps_venn(
 
 \item{weight}{If TRUE, the overlaps are weighted by abundance}
 
-\item{type}{"percent" or "counts"}
-
 \item{relative}{Should abundances be made relative}
 
 \item{plot}{If TRUE return a plot, if FALSE return a list with shared and unique taxa}
@@ -37,6 +34,9 @@ An venn plot
 }
 \description{
 Make Venn diagram of shared taxa (ASVs, OTUs) across sample groups from a phyloseq object. Overlap can be weighted by relative abundance
+#' 
+Any further arguments to this function are passed to the plot.venn function from the eulerr package. This can be used to change colors, fonts, and other graphical parameters.
+For example: ps_venn(phy, "Time", quantities = list(type=c("percent","counts"), font = 2), labels = list(cex = 2), col = "red", fill = c("red","blue","green"))
 }
 \keyword{diagram}
 \keyword{venn}
