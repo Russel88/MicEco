@@ -7,6 +7,7 @@
 #' @param ps A phyloseq object
 #' @param group The grouping factor. Should match variable in sample_data(ps)
 #' @param fraction The fraction (0 to 1) of samples in a group in which the taxa should be present to be included in the count.
+#' @param shape Shape of the plot "circle" or "ellipse"?
 #' @param weight If TRUE, the overlaps are weighted by abundance
 #' @param relative Should abundances be made relative
 #' @param plot If TRUE return a plot, if FALSE return a list with shared and unique taxa
@@ -18,7 +19,7 @@
 #' @importFrom stats aggregate as.formula
 #' @export
 
-ps_euler <- function(ps, group, fraction = 0, weight = FALSE, relative = TRUE, plot = TRUE, ...){
+ps_euler <- function(ps, group, fraction = 0, shape = "circle", weight = FALSE, relative = TRUE, plot = TRUE, ...){
     
     if(relative){
         ps <- transform_sample_counts(ps, function(x) x/sum(x))
@@ -41,9 +42,12 @@ ps_euler <- function(ps, group, fraction = 0, weight = FALSE, relative = TRUE, p
     
     if(plot){
         if(weight){
-            df <- eulerr::euler(ps_mat_bin, weights = rowMeans(ps_mat))
+            df <- eulerr::euler(ps_mat_bin, weights = rowMeans(ps_mat), shape = shape)
         } else {
-            df <- eulerr::euler(ps_mat_bin)
+            df <- eulerr::euler(ps_mat_bin, shape = shape)
+        }
+        if(sum(df$fitted.values) < sum(df$original.values)){
+            warning("Some taxa might be excluded from the plot due to non-optimal fitting")
         }
         plot(df, ...)
     } else {

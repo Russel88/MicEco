@@ -8,6 +8,7 @@ ps_euler(
   ps,
   group,
   fraction = 0,
+  shape = "circle",
   weight = FALSE,
   relative = TRUE,
   plot = TRUE,
@@ -20,6 +21,8 @@ ps_euler(
 \item{group}{The grouping factor. Should match variable in sample_data(ps)}
 
 \item{fraction}{The fraction (0 to 1) of samples in a group in which the taxa should be present to be included in the count.}
+
+\item{shape}{Shape of the plot "circle" or "ellipse"?}
 
 \item{weight}{If TRUE, the overlaps are weighted by abundance}
 
