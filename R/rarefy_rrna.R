@@ -6,26 +6,27 @@
 #' @param copy.database What Greengenes database version was used to find OTUs. Atm only "v13.5" is available. Alternatively, A dataframe with two variables: "ID" is the OTU id matched by names in x and "Copy" is the copy number.
 #' @param seed Random seed for sampling.
 #' @param trim Should samples with less than the set amount of reads be trimmed away?
+#' @param replace Should reads be sampled with replacement? Default FALSE. If FALSE, rRNA copy numbers will have small effect if the rarefied depth is close to the actual depth. If TRUE, some taxa can end up with more reads in the rarefied matrix that they had in the input.
 #' @keywords rarefy normalize rrna
 #' @return A rarefied otu-table
 #' @import phyloseq
 #' @export
 
-rarefy_rrna <- function(x, reads, copy.database="v13.5", seed=NULL, trim=FALSE){
-  if(class(x) == "phyloseq") y <- rarefy_rrna.phyloseq(x,reads,copy.database,seed,trim) else y <- rarefy_rrna.matrix(x,reads,copy.database,seed,trim)
+rarefy_rrna <- function(x, reads, copy.database="v13.5", seed=NULL, trim=FALSE, replace=FALSE){
+  if(class(x) == "phyloseq") y <- rarefy_rrna.phyloseq(x,reads,copy.database,seed,trim,replace) else y <- rarefy_rrna.matrix(x,reads,copy.database,seed,trim,replace)
   return(y)
 }
 
 #' @rdname rarefy_rrna
 #' @export
 
-rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL, trim){
+rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL, trim, replace){
   
   if(is.null(seed)) {
     rand.seed <- as.numeric(Sys.time())
     set.seed(rand.seed)
     message(paste("Remember to set seed!","Now set to",rand.seed)) }
-
+  
   # Load Copy database
   if(is.data.frame(copy.database)){
     rRNA <- copy.database
@@ -48,8 +49,8 @@ rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL, trim){
   x <- x[,order(colnames(x))]
   nm <- colnames(x)
   for (i in 1:nrow(x)) {
-    if (sum(x[i, ]) <= these.reads[i]) next
-    row <- sample(rep(nm, times = x[i, ]), these.reads[i],prob=rep(rrna.rev, times = x[i, ]))
+    if (sum(x[i, ]) <= these.reads[i] && !replace) next
+    row <- sample(rep(nm, times = x[i, ]), these.reads[i],prob=rep(rrna.rev, times = x[i, ]), replace=replace)
     row <- table(row)
     ind <- names(row)
     x[i, ] <- 0
@@ -66,7 +67,7 @@ rarefy_rrna.matrix <- function (x, reads, copy.database, seed=NULL, trim){
 #' @rdname rarefy_rrna
 #' @export
 
-rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL, trim){
+rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL, trim, replace){
   
   if(is.null(seed)) {
     rand.seed <- sample(1000,1)
@@ -85,7 +86,7 @@ rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL, trim){
       colnames(rRNA) <- c("ID","Copy")
     }
   }
-    
+  
   # Probabilities
   rrna <- as.data.frame(rRNA[rRNA$ID %in% colnames(x2),])
   rownames(rrna) <- rrna$ID
@@ -97,8 +98,8 @@ rarefy_rrna.phyloseq <- function (x, reads, copy.database, seed=NULL, trim){
   x2 <- x2[,order(colnames(x2))]
   nm <- colnames(x2)
   for (i in 1:nrow(x2)) {
-    if (sum(x2[i, ]) <= these.reads[i]) next
-    row <- sample(rep(nm, times = x2[i, ]), these.reads[i],prob=rep(rrna.rev, times = x2[i, ]))
+    if (sum(x2[i, ]) <= these.reads[i] && !replace) next
+    row <- sample(rep(nm, times = x2[i, ]), these.reads[i],prob=rep(rrna.rev, times = x2[i, ]), replace)
     row <- table(row)
     ind <- names(row)
     x2[i, ] <- 0
