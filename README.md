@@ -46,7 +46,7 @@ CLR transformation of community matrix, with multiplicative zero replacement
 
 #### adonis_OmegaSq
 
-Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models
+Calculate the unbiased effect size estimation (partial) omega-squared for adonis (PERMANOVA) models. Note that the calculation is similar to a standard ANOVA and is not based on a theoretical foundation specifically for PERMANOVA.
 
 #### WdS.test
 
