@@ -1,5 +1,6 @@
 #' Calculate (partial) Omega-squared (effect-size calculation) for PERMANOVA and add it to the input object
-#'
+#' Note that the calculation is similar to a standard ANOVA and is not based on a theoretical foundation specifically for PERMANOVA.
+#' 
 #' @param adonisOutput An adonis object
 #' @param partial Should partial omega-squared be calculated (sample size adjusted). Default TRUE
 #' @return Original adonis object with the (partial) Omega-squared values added

@@ -2,7 +2,8 @@
 % Please edit documentation in R/adonis_OmegaSq.R
 \name{adonis_OmegaSq}
 \alias{adonis_OmegaSq}
-\title{Calculate (partial) Omega-squared (effect-size calculation) for PERMANOVA and add it to the input object}
+\title{Calculate (partial) Omega-squared (effect-size calculation) for PERMANOVA and add it to the input object
+Note that the calculation is similar to a standard ANOVA and is not based on a theoretical foundation specifically for PERMANOVA.}
 \usage{
 adonis_OmegaSq(adonisOutput, partial = TRUE)
 }
@@ -16,4 +17,5 @@ Original adonis object with the (partial) Omega-squared values added
 }
 \description{
 Calculate (partial) Omega-squared (effect-size calculation) for PERMANOVA and add it to the input object
+Note that the calculation is similar to a standard ANOVA and is not based on a theoretical foundation specifically for PERMANOVA.
 }
