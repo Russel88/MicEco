@@ -14,5 +14,9 @@ A list of length two; first element contains fit statistics, the second element 
 }
 \description{
 Fit neutral model developed by Sloan et al. (2006, Environ Microbiol 8(4):732-740) and implemented by Burns et al. (2015, ISME J 10(3):655-664).
+#' Outputs three different pseudo R2 values for model fit:
+- McFadden's R2: 1 - (logLik(model) / logLik(null model))
+- Cox & Snell's R2: 1 - exp((2/n) * (logLik(null model) - logLik(model)))
+- Nagelkerke's R2: Cox & Snell's R2 / (1 - exp((2/n) * logLik(null model)))
 }
 \keyword{neutral}

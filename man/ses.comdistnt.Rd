@@ -7,8 +7,8 @@
 ses.comdistnt(
   samp,
   dis,
-  null.model = c("taxa.labels", "richness", "frequency", "sample.pool",
-    "phylogeny.pool", "independentswap", "trialswap"),
+  null.model = c("taxa.labels", "richness", "frequency", "sample.pool", "phylogeny.pool",
+    "independentswap", "trialswap"),
   abundance.weighted = FALSE,
   exclude.conspecifics = FALSE,
   runs = 999,

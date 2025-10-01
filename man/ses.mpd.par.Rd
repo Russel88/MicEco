@@ -7,8 +7,8 @@
 ses.mpd.par(
   samp,
   dis,
-  null.model = c("taxa.labels", "richness", "frequency", "sample.pool",
-    "phylogeny.pool", "independentswap", "trialswap"),
+  null.model = c("taxa.labels", "richness", "frequency", "sample.pool", "phylogeny.pool",
+    "independentswap", "trialswap"),
   abundance.weighted = FALSE,
   runs = 999,
   iterations = 1000,

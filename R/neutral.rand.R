@@ -1,6 +1,10 @@
 #' Fit Sloan et al. (2006) Neutral Model several times
 #'
 #' Fit neutral model developed by Sloan et al. (2006, Environ Microbiol 8(4):732-740) and implemented by Burns et al. (2015, ISME J 10(3):655-664) several times on ramdomly picked samples and with 16S rRNA gene copy number corrected rarefaction.
+#' Outputs three different pseudo R2 values for model fit:
+#' - McFadden's R2: 1 - (logLik(model) / logLik(null model))
+#' - Cox & Snell's R2: 1 - exp((2/n) * (logLik(null model) - logLik(model)))
+#' - Nagelkerke's R2: Cox & Snell's R2 / (1 - exp((2/n) * logLik(null model)))
 #' @param data A phyloseq object
 #' @param n Integer. Number of times to repeat analysis
 #' @param s Integer. Number of random samples to for each repetition.
@@ -63,7 +67,7 @@ neutral.rand <- function(data,n=NULL,s=NULL,rRNA=NULL,rn=NULL,cores=1,naming=NUL
   # Bind stat dataframe
   results.stats <- as.data.frame(do.call("rbind",lapply(results,function(x) x[[1]])))
   results.stats <- as.data.frame(lapply(results.stats, as.numeric))
-  colnames(results.stats) <- c("m","LogLik","gRsqr","N","Samples","OTUs","detection","run")
+  colnames(results.stats) <- c("m","LogLik","pseudoR2_McFadden","pseudoR2_CoxSnell","pseudoR2_Nagelkerke","N","Samples","OTUs","detection","run")
   
   # Naming
   if(!is.null(naming)){

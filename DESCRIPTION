@@ -1,6 +1,6 @@
 Package: MicEco
 Title: Various functions for microbial community data
-Version: 0.9.19
+Version: 0.10.0
 Authors@R: person("Jakob", "Russel", email = "russel2620@gmail.com", role = c("aut", "cre"))
 Maintainer: Jakob Russel <russel2620@gmail.com>
 Description: Collection of functions for microbiome analyses. E.g. fitting neutral models and standardized effect sizes of phylogenetic beta diversities, and much more.
@@ -9,5 +9,5 @@ Imports: stats, utils, phyloseq, foreach, doSNOW, picante, vegan, snow, bbmle, H
 License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.3
 Remotes: bioc::release/phyloseq
