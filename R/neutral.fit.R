@@ -62,7 +62,15 @@ neutral.fit <- function(otu){
   pred.ci <- binconf(freq.pred*nrow(otu), nrow(otu), return.df=TRUE)
     
   # Bind results
-  stats <- cbind(m.mle@coef['m'], m.mle@details$value, R2_McF, R2_CS, R2_Nag, N, nrow(otu), length(p), d)
+  stats <- cbind(m = m.mle@coef['m'], 
+                 logLik = m.mle@details$value, 
+                 R2_McFadden = R2_McF, 
+                 R2_CoxSnell = R2_CS, 
+                 R2_Nagelkerke = R2_Nag, 
+                 N = N, 
+                 Samples = nrow(otu), 
+                 OTUs = length(p), 
+                 DetectionLimit = d)
   pred <- cbind(p, freq, freq.pred, pred.ci[,2:3])
   
   results <- list(stats,pred)
