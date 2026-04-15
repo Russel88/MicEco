@@ -34,12 +34,46 @@ ses.comdist2 <- function (samp, dis, method = "quasiswap", fixedmar = "both", sh
                           abundance.weighted = FALSE, runs = 999, cores = 1){
   dis <- as.matrix(dis)
   comdist.obs <- as.matrix(comdist.par(samp, dis, abundance.weighted = abundance.weighted, cores = cores, progress = FALSE))
-
-  if(is.null(method)) {
-    comdist.rand <- replicate(runs, as.matrix(comdist.par(permatfull(samp, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, times = 1)$perm[[1]], dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE)
-  } else {
-    comdist.rand <- replicate(runs, as.matrix(comdist.par(permatswap(samp, method = method, fixedmar = fixedmar, shuffle = shuffle, strata = strata, mtype = mtype, burnin = burnin, thin = thin, times = 1)$perm[[1]], dis, abundance.weighted, cores = cores, progress = FALSE)), simplify = FALSE)
+  permuted_samp <- function() {
+    permuted <- if (is.null(method)) {
+      permatfull(
+        samp,
+        fixedmar = fixedmar,
+        shuffle = shuffle,
+        strata = strata,
+        mtype = mtype,
+        times = 1
+      )$perm[[1]]
+    } else {
+      permatswap(
+        samp,
+        method = method,
+        fixedmar = fixedmar,
+        shuffle = shuffle,
+        strata = strata,
+        mtype = mtype,
+        burnin = burnin,
+        thin = thin,
+        times = 1
+      )$perm[[1]]
     }
+
+    .restore_permuted_dimnames(permuted, samp)
+  }
+
+  comdist.rand <- replicate(
+    runs,
+    as.matrix(
+      comdist.par(
+        permuted_samp(),
+        dis,
+        abundance.weighted,
+        cores = cores,
+        progress = FALSE
+      )
+    ),
+    simplify = FALSE
+  )
   
   comdist.rand.mean <- apply(X = simplify2array(comdist.rand), MARGIN = 1:2, FUN = mean, na.rm = TRUE)
   

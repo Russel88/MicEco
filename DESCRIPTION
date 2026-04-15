@@ -6,8 +6,10 @@ Maintainer: Jakob Russel <russel2620@gmail.com>
 Description: Collection of functions for microbiome analyses. E.g. fitting neutral models and standardized effect sizes of phylogenetic beta diversities, and much more.
 Depends: R (>= 3.2.5)
 Imports: stats, utils, phyloseq, foreach, doSNOW, picante, vegan, snow, bbmle, Hmisc, abind, reshape2, eulerr, pheatmap
+Suggests: testthat
 License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.3
 Remotes: bioc::release/phyloseq
+Config/testthat/edition: 3
