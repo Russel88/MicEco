@@ -1,0 +1,199 @@
+# Claude Security Review Workflow
+# Part of the Claude Workflow System - Base Layer
+#
+# This workflow performs security-focused code reviews on pull requests.
+# It checks for common vulnerabilities, security best practices, and compliance issues.
+
+name: Claude Security Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      # Trigger on security-sensitive file changes
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.py'
+      - '**/*.go'
+      - '**/*.rs'
+      - '**/package.json'
+      - '**/package-lock.json'
+      - '**/yarn.lock'
+      - '**/pnpm-lock.yaml'
+      - '**/requirements.txt'
+      - '**/Pipfile.lock'
+      - '**/go.mod'
+      - '**/go.sum'
+      - '**/Cargo.lock'
+      - '**/.env*'
+      - '**/docker-compose*.yml'
+      - '**/Dockerfile*'
+      - '**/*.sql'
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: number
+
+# Concurrency settings
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+  cancel-in-progress: true
+
+jobs:
+  security-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR details
+        id: pr-details
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+          else
+            echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Claude Security Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          pr_number: ${{ steps.pr-details.outputs.pr_number }}
+
+          prompt: |
+            You are a security engineer performing a security-focused code review.
+            Analyze this pull request for security vulnerabilities and compliance issues.
+
+            ## Security Audit Checklist
+
+            ### OWASP Top 10 (2021)
+            - [ ] A01:2021 - Broken Access Control
+            - [ ] A02:2021 - Cryptographic Failures
+            - [ ] A03:2021 - Injection (SQL, NoSQL, OS, LDAP)
+            - [ ] A04:2021 - Insecure Design
+            - [ ] A05:2021 - Security Misconfiguration
+            - [ ] A06:2021 - Vulnerable and Outdated Components
+            - [ ] A07:2021 - Identification and Authentication Failures
+            - [ ] A08:2021 - Software and Data Integrity Failures
+            - [ ] A09:2021 - Security Logging and Monitoring Failures
+            - [ ] A10:2021 - Server-Side Request Forgery (SSRF)
+
+            ### Authentication & Authorization
+            - [ ] Proper authentication mechanisms in place
+            - [ ] Authorization checks on all protected resources
+            - [ ] Session management is secure
+            - [ ] Password handling follows best practices
+            - [ ] Multi-factor authentication where appropriate
+
+            ### Data Security
+            - [ ] Sensitive data is encrypted at rest and in transit
+            - [ ] No hardcoded secrets, API keys, or credentials
+            - [ ] PII is properly handled and protected
+            - [ ] Data validation and sanitization on all inputs
+            - [ ] Proper output encoding to prevent XSS
+
+            ### Infrastructure Security
+            - [ ] Docker images use non-root users
+            - [ ] Dependencies are pinned to specific versions
+            - [ ] No known vulnerable dependencies
+            - [ ] Environment variables properly managed
+            - [ ] Secure defaults in configuration
+
+            ### API Security
+            - [ ] Rate limiting implemented
+            - [ ] Input validation on all endpoints
+            - [ ] Proper error handling (no sensitive info in errors)
+            - [ ] CORS properly configured
+            - [ ] API versioning strategy in place
+
+            ### Code Security Patterns
+            - [ ] No use of eval() or similar dynamic code execution
+            - [ ] No command injection vulnerabilities
+            - [ ] Safe handling of file uploads
+            - [ ] No path traversal vulnerabilities
+            - [ ] Proper use of cryptographic functions
+
+            ## Output Format
+
+            ### Security Summary
+            Overall security posture assessment of the changes.
+
+            ### Critical Issues 🚨
+            Issues that MUST be fixed before merge (with severity and remediation).
+
+            ### High Priority Issues ⚠️
+            Significant security concerns that should be addressed.
+
+            ### Medium Priority Issues 📋
+            Security improvements recommended.
+
+            ### Low Priority / Informational 💡
+            Best practice suggestions and hardening recommendations.
+
+            ### Dependencies Analysis
+            Assessment of any new or updated dependencies.
+
+            ### Security Verdict
+            - 🚨 BLOCK - Critical security issues found
+            - ⚠️ CONCERNS - Security issues require attention
+            - ✅ PASS - No significant security issues found
+
+            For each issue found, provide:
+            1. File and line number
+            2. Vulnerability type/CWE ID if applicable
+            3. Severity (Critical/High/Medium/Low)
+            4. Specific remediation steps
+            5. Example of secure implementation
+
+          # Focus on security-sensitive files
+          include_patterns: |
+            **/*.ts
+            **/*.tsx
+            **/*.js
+            **/*.jsx
+            **/*.py
+            **/*.go
+            **/*.rs
+            **/package.json
+            **/.env*
+            **/Dockerfile*
+            **/*.sql
+
+      - name: Add security review label
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.pr-details.outputs.pr_number }},
+              labels: ['security-reviewed']
+            })
+
+      - name: Check for critical issues
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.pr-details.outputs.pr_number }},
+              labels: ['security-issues']
+            })

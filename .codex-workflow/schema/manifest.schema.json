@@ -1,0 +1,241 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Clinical-Microbiomics/claude-workflow/schema/manifest.schema.json",
+  "title": "Claude Workflow Variant Manifest",
+  "description": "Schema for variant manifest files that define project-type-specific configurations",
+  "type": "object",
+  "required": ["name", "version", "description", "projectType"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique identifier for this variant",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this variant",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what this variant provides"
+    },
+    "projectType": {
+      "type": "string",
+      "description": "Type of project this variant supports",
+      "enum": ["nextjs", "react", "node", "python", "crewai", "generic"]
+    },
+    "baseVersion": {
+      "type": "string",
+      "description": "Minimum compatible base layer version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "extends": {
+      "type": "string",
+      "description": "Parent variant to extend (if any)"
+    },
+    "components": {
+      "type": "object",
+      "description": "Components provided by this variant",
+      "properties": {
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "path"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Agent identifier"
+              },
+              "path": {
+                "type": "string",
+                "description": "Path to agent definition relative to variant root"
+              },
+              "mergeStrategy": {
+                "type": "string",
+                "enum": ["overlay", "replace"],
+                "default": "overlay"
+              }
+            }
+          }
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "path"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "mergeStrategy": {
+                "type": "string",
+                "enum": ["overlay", "replace"],
+                "default": "overlay"
+              }
+            }
+          }
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "path"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "mergeStrategy": {
+                "type": "string",
+                "enum": ["overlay", "replace"],
+                "default": "overlay"
+              }
+            }
+          }
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["source", "destination"],
+            "properties": {
+              "source": {
+                "type": "string",
+                "description": "Path in variant"
+              },
+              "destination": {
+                "type": "string",
+                "description": "Path in target project"
+              },
+              "mergeStrategy": {
+                "type": "string",
+                "enum": ["overlay", "replace", "skip_if_exists"],
+                "default": "skip_if_exists"
+              }
+            }
+          }
+        },
+        "workflows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "path"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "mergeStrategy": {
+                "type": "string",
+                "enum": ["overlay", "replace"],
+                "default": "overlay"
+              }
+            }
+          }
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Default configuration values for this variant",
+      "properties": {
+        "projectStructure": {
+          "type": "object",
+          "description": "Expected project structure paths",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "requiredDependencies": {
+          "type": "array",
+          "description": "Dependencies required for this variant",
+          "items": {
+            "type": "string"
+          }
+        },
+        "environmentVariables": {
+          "type": "array",
+          "description": "Environment variables used by this variant",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean",
+                "default": false
+              },
+              "default": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "initialization": {
+      "type": "object",
+      "description": "Initialization steps for new projects",
+      "properties": {
+        "preInit": {
+          "type": "array",
+          "description": "Commands to run before initialization",
+          "items": {
+            "type": "string"
+          }
+        },
+        "postInit": {
+          "type": "array",
+          "description": "Commands to run after initialization",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prompts": {
+          "type": "array",
+          "description": "Interactive prompts during initialization",
+          "items": {
+            "type": "object",
+            "required": ["key", "message"],
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["text", "select", "confirm"],
+                "default": "text"
+              },
+              "default": {
+                "type": "string"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

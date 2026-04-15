@@ -1,0 +1,258 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Clinical-Microbiomics/claude-workflow/schema/prd-state.schema.json",
+  "title": "Claude Workflow PRD State",
+  "description": "Schema for tracking PRD state through the planning workflow pipeline",
+  "type": "object",
+  "required": ["schemaVersion", "id", "name", "status"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Version of this schema",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique PRD identifier (feature slug)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable PRD name"
+    },
+    "source": {
+      "type": "object",
+      "description": "Where the PRD was imported from",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["coda", "confluence", "notion", "local"],
+          "description": "Source system type"
+        },
+        "url": {
+          "type": ["string", "null"],
+          "description": "Source URL if fetched from external system"
+        },
+        "filePath": {
+          "type": ["string", "null"],
+          "description": "Local file path if imported from file"
+        },
+        "lastFetched": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the PRD was last fetched from source"
+        }
+      },
+      "required": ["type"]
+    },
+    "validation": {
+      "type": "object",
+      "description": "Validation results",
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Overall completeness score"
+        },
+        "lastValidated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When validation was last run"
+        },
+        "sections": {
+          "type": "array",
+          "description": "Per-section validation results",
+          "items": {
+            "type": "object",
+            "required": ["name", "score"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Section name"
+              },
+              "score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "issues": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "questionsForPO": {
+          "type": "array",
+          "description": "Questions generated for product owner",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "enrichment": {
+      "type": "object",
+      "description": "Technical enrichment data",
+      "properties": {
+        "complexity": {
+          "type": "string",
+          "enum": ["XS", "S", "M", "L", "XL"],
+          "description": "T-shirt size complexity estimate"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "description": "Confidence level in the complexity estimate"
+        },
+        "risks": {
+          "type": "array",
+          "description": "Identified technical risks",
+          "items": {
+            "type": "object",
+            "required": ["description", "severity"],
+            "properties": {
+              "description": { "type": "string" },
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low"]
+              },
+              "mitigation": { "type": "string" }
+            }
+          }
+        },
+        "dependencies": {
+          "type": "object",
+          "properties": {
+            "internal": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Internal service/module dependencies"
+            },
+            "external": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "External API/service dependencies"
+            }
+          }
+        },
+        "integrationPoints": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Systems that need integration"
+        },
+        "reusableComponents": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Existing components that can be reused"
+        },
+        "lastEnriched": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "feasibility": {
+      "type": "object",
+      "description": "Feasibility analysis results",
+      "properties": {
+        "rating": {
+          "type": "string",
+          "enum": ["HIGH", "MEDIUM", "LOW"],
+          "description": "Overall feasibility rating"
+        },
+        "resourceEstimate": {
+          "type": "object",
+          "properties": {
+            "roles": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "role": { "type": "string" },
+                  "count": { "type": "number" },
+                  "duration": { "type": "string" }
+                }
+              }
+            },
+            "totalEffort": { "type": "string" }
+          }
+        },
+        "integrationComplexity": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Number of integration touchpoints"
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "recommendation": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["PROCEED", "DEFER", "REJECT"]
+            },
+            "conditions": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "lastAssessed": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "breakdown": {
+      "type": "object",
+      "description": "Work breakdown results",
+      "properties": {
+        "itemCount": {
+          "type": "number",
+          "description": "Number of work items generated"
+        },
+        "totalEstimate": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "number", "description": "Minimum hours" },
+            "max": { "type": "number", "description": "Maximum hours" }
+          }
+        },
+        "areas": {
+          "type": "object",
+          "description": "Items grouped by area",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "lastBrokenDown": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "linearInitiativeId": {
+      "type": ["string", "null"],
+      "description": "Linked Linear Initiative ID"
+    },
+    "linearProjectId": {
+      "type": ["string", "null"],
+      "description": "Linked Linear Project ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "validating", "validated", "enriching", "enriched", "feasibility", "ready", "breakdown", "in-cycle", "completed"],
+      "description": "Current PRD pipeline status"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

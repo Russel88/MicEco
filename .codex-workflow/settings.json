@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "MicEco",
+    "description": "Project description",
+    "type": "generic",
+    "variant": "base"
+  },
+  "projectMetadata": {
+    "linear": {
+      "teamId": null,
+      "teamName": null,
+      "projectId": null,
+      "projectName": null
+    },
+    "coda": {
+      "docId": null,
+      "docName": null,
+      "pageId": null,
+      "pageName": null
+    },
+    "github": {
+      "repo": "Russel88/MicEco",
+      "owner": "Russel88",
+      "name": "MicEco"
+    }
+  },
+  "workflow": {
+    "sessionManagement": {
+      "enabled": true,
+      "autoSave": true,
+      "saveInterval": 300
+    },
+    "ciIntegration": {
+      "enabled": true,
+      "codeReview": true,
+      "securityReview": true
+    },
+    "taskManagement": {
+      "provider": null,
+      "projectKey": null,
+      "autoSync": false
+    },
+    "documentation": {
+      "provider": null,
+      "autoSync": false
+    }
+  },
+  "paths": {
+    "docs": "docs",
+    "knowledge": "knowledge",
+    "specs": "docs/specs",
+    "planning": "docs/planning",
+    "reports": "docs/reports",
+    "prd": "knowledge/prd",
+    "architecture": "knowledge/architecture"
+  },
+  "installation": {
+    "pluginVersion": "0.1.0",
+    "workflowVersion": "2.1.1-codex.1",
+    "variant": "base",
+    "baseExclusions": {
+      "agents": [],
+      "commands": [],
+      "tasks": []
+    }
+  },
+  "skills": {
+    "enabled": [
+      "workflow-breakdown",
+      "workflow-check-mcp-status",
+      "workflow-create-variant",
+      "workflow-cycle-commit",
+      "workflow-cycle-plan",
+      "workflow-cycle-retro",
+      "workflow-cycle-status",
+      "workflow-cycle-summary",
+      "workflow-end-session",
+      "workflow-fix-bug",
+      "workflow-generate-tests",
+      "workflow-implement-feature",
+      "workflow-log-new-feature",
+      "workflow-lookup-feature",
+      "workflow-prd-enrich",
+      "workflow-prd-feasibility",
+      "workflow-prd-intake",
+      "workflow-prd-sequence",
+      "workflow-prd-validate",
+      "workflow-refactor-code",
+      "workflow-review-code",
+      "workflow-run-security-audit",
+      "workflow-session-status",
+      "workflow-setup-project-meta",
+      "workflow-setup-workflow",
+      "workflow-start-session",
+      "workflow-submit-variant",
+      "workflow-sync-linear",
+      "workflow-update-docs"
+    ],
+    "router": "workflow-router"
+  }
+}

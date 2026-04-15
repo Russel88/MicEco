@@ -1,0 +1,241 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Clinical-Microbiomics/claude-workflow/schema/session-state.schema.json",
+  "title": "Claude Workflow Session State",
+  "description": "Schema for session state tracking",
+  "type": "object",
+  "required": ["schemaVersion", "session"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Version of this schema",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "session": {
+      "type": "object",
+      "required": ["id", "status"],
+      "properties": {
+        "id": {
+          "type": ["string", "null"],
+          "description": "Unique session identifier",
+          "pattern": "^session-\\d{4}-\\d{2}-\\d{2}-\\d{4}$"
+        },
+        "startedAt": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when session started"
+        },
+        "lastActivity": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of last activity"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["inactive", "active", "paused", "ended"],
+          "description": "Current session status"
+        },
+        "endedAt": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when session ended"
+        }
+      }
+    },
+    "work": {
+      "type": "object",
+      "description": "Work tracking for the session",
+      "properties": {
+        "currentTask": {
+          "type": ["object", "null"],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": ["feature", "bug", "refactor", "chore", "docs"]
+            },
+            "startedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "inProgress": {
+          "type": "array",
+          "description": "Tasks currently in progress",
+          "items": {
+            "type": "object",
+            "required": ["id", "title"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "startedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        "completed": {
+          "type": "array",
+          "description": "Tasks completed this session",
+          "items": {
+            "type": "object",
+            "required": ["id", "title"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "completedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        "blocked": {
+          "type": "array",
+          "description": "Tasks that are blocked",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "reason"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "blockedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+    },
+    "git": {
+      "type": "object",
+      "description": "Git state tracking",
+      "properties": {
+        "branch": {
+          "type": ["string", "null"],
+          "description": "Current git branch"
+        },
+        "uncommittedAtStart": {
+          "type": "integer",
+          "description": "Number of uncommitted changes at session start",
+          "minimum": 0
+        },
+        "commitsThisSession": {
+          "type": "integer",
+          "description": "Number of commits made this session",
+          "minimum": 0
+        },
+        "lastCommit": {
+          "type": ["object", "null"],
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "description": "Current blockers",
+      "items": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["technical", "dependency", "external", "decision", "other"]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolvedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Decisions made during session",
+      "items": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "relatedTask": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "description": "Session notes",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mcpConnections": {
+      "type": "object",
+      "description": "MCP connection status",
+      "properties": {
+        "taskManagement": {
+          "type": "boolean",
+          "description": "Task management MCP connected"
+        },
+        "documentation": {
+          "type": "boolean",
+          "description": "Documentation MCP connected"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+# Claude Code Review Workflow
+# Part of the Claude Workflow System - Base Layer
+#
+# This workflow triggers Claude-powered code reviews on pull requests.
+# Customize the prompt and configuration for your project needs.
+
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: number
+
+# Concurrency settings to prevent duplicate reviews
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+  cancel-in-progress: true
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR details
+        id: pr-details
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+          else
+            echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Claude Code Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          pr_number: ${{ steps.pr-details.outputs.pr_number }}
+
+          # Review prompt - customize based on project needs
+          prompt: |
+            You are a senior code reviewer. Review this pull request thoroughly.
+
+            ## Review Checklist
+
+            ### Code Quality
+            - [ ] Code follows project conventions and style guides
+            - [ ] Functions/methods have single responsibility
+            - [ ] No code duplication or opportunities for refactoring
+            - [ ] Error handling is appropriate and consistent
+            - [ ] Edge cases are handled properly
+
+            ### Architecture
+            - [ ] Changes align with existing architecture patterns
+            - [ ] No unnecessary coupling between components
+            - [ ] Dependencies are appropriate and minimal
+            - [ ] Changes are backwards compatible (if applicable)
+
+            ### Performance
+            - [ ] No obvious performance issues
+            - [ ] Database queries are optimized (if applicable)
+            - [ ] No memory leaks or resource issues
+            - [ ] Appropriate caching strategies used
+
+            ### Testing
+            - [ ] New code has adequate test coverage
+            - [ ] Tests are meaningful and test behavior, not implementation
+            - [ ] Edge cases are tested
+            - [ ] No flaky or brittle tests introduced
+
+            ### Security
+            - [ ] No hardcoded secrets or credentials
+            - [ ] Input validation is present where needed
+            - [ ] No SQL injection, XSS, or other OWASP top 10 vulnerabilities
+            - [ ] Authentication/authorization properly implemented
+
+            ### Documentation
+            - [ ] Code is self-documenting or has appropriate comments
+            - [ ] API changes are documented
+            - [ ] README updated if needed
+
+            ## Output Format
+
+            Provide your review in the following format:
+
+            ### Summary
+            Brief overview of the changes and overall assessment.
+
+            ### Strengths
+            What's done well in this PR.
+
+            ### Areas for Improvement
+            Specific issues that should be addressed, with file/line references.
+
+            ### Suggestions
+            Optional improvements that would enhance the code.
+
+            ### Verdict
+            - ✅ APPROVE - Ready to merge
+            - 🔄 REQUEST CHANGES - Issues must be addressed
+            - 💬 COMMENT - Minor suggestions, author's discretion
+
+          # Optional: specify files to focus on
+          # include_patterns: |
+          #   src/**/*.ts
+          #   src/**/*.tsx
+          #   lib/**/*.ts
+
+          # Optional: exclude certain files
+          # exclude_patterns: |
+          #   **/*.test.ts
+          #   **/__mocks__/**
+          #   **/node_modules/**
+
+      - name: Add review label
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.pr-details.outputs.pr_number }},
+              labels: ['claude-reviewed']
+            })

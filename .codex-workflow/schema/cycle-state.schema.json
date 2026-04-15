@@ -1,0 +1,336 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Clinical-Microbiomics/claude-workflow/schema/cycle-state.schema.json",
+  "title": "Claude Workflow Cycle State",
+  "description": "Schema for tracking Cycle state through planning and execution",
+  "type": "object",
+  "required": ["schemaVersion", "id", "name", "startDate", "endDate"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Version of this schema",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique cycle identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Cycle name"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Cycle start date"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Cycle end date"
+    },
+    "goal": {
+      "type": "string",
+      "description": "Cycle goal statement"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "committed", "active", "completed", "cancelled"],
+      "description": "Current cycle status"
+    },
+    "team": {
+      "type": "array",
+      "description": "Team members and their capacity",
+      "items": {
+        "type": "object",
+        "required": ["name", "role"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Team member name"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role (e.g., BE, FE, FS)"
+          },
+          "capacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Capacity percentage"
+          },
+          "availableHours": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Total available hours for the cycle"
+          }
+        }
+      }
+    },
+    "capacity": {
+      "type": "object",
+      "description": "Aggregate capacity data",
+      "properties": {
+        "totalHours": {
+          "type": "number",
+          "description": "Total team hours available"
+        },
+        "capacityPercentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Applied capacity percentage"
+        },
+        "effectiveHours": {
+          "type": "number",
+          "description": "Hours after capacity percentage applied"
+        },
+        "bufferHours": {
+          "type": "number",
+          "description": "Hours reserved for unknowns"
+        }
+      }
+    },
+    "scope": {
+      "type": "array",
+      "description": "Work items in cycle scope",
+      "items": {
+        "type": "object",
+        "required": ["id", "title"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Linear issue ID"
+          },
+          "title": {
+            "type": "string"
+          },
+          "estimate": {
+            "type": "number",
+            "description": "Estimated hours"
+          },
+          "assignee": {
+            "type": ["string", "null"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "in_progress", "completed", "blocked", "cut"],
+            "description": "Item status within the cycle"
+          },
+          "area": {
+            "type": "string",
+            "description": "Work area (backend, frontend, etc.)"
+          }
+        }
+      }
+    },
+    "milestones": {
+      "type": "array",
+      "description": "Cycle milestones/checkpoints",
+      "items": {
+        "type": "object",
+        "required": ["name", "targetDay"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Milestone name"
+          },
+          "targetDay": {
+            "type": "number",
+            "description": "Target day number within cycle"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "criteria": {
+            "type": "string",
+            "description": "Completion criteria"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "achieved", "missed", "at-risk"],
+            "description": "Milestone status"
+          },
+          "achievedDate": {
+            "type": ["string", "null"],
+            "format": "date"
+          }
+        }
+      }
+    },
+    "progress": {
+      "type": "object",
+      "description": "Current progress metrics",
+      "properties": {
+        "completed": {
+          "type": "number",
+          "description": "Number of completed items"
+        },
+        "inProgress": {
+          "type": "number",
+          "description": "Number of in-progress items"
+        },
+        "blocked": {
+          "type": "number",
+          "description": "Number of blocked items"
+        },
+        "remaining": {
+          "type": "number",
+          "description": "Number of remaining items"
+        },
+        "completionPercentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Overall completion percentage"
+        },
+        "hoursCompleted": {
+          "type": "number",
+          "description": "Estimated hours of completed work"
+        },
+        "hoursRemaining": {
+          "type": "number",
+          "description": "Estimated hours remaining"
+        }
+      }
+    },
+    "velocity": {
+      "type": "object",
+      "description": "Velocity tracking",
+      "properties": {
+        "planned": {
+          "type": "number",
+          "description": "Planned velocity (hours/day)"
+        },
+        "actual": {
+          "type": "number",
+          "description": "Actual velocity (hours/day)"
+        },
+        "trend": {
+          "type": "string",
+          "enum": ["increasing", "stable", "decreasing"],
+          "description": "Velocity trend direction"
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "description": "Active blockers",
+      "items": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["technical", "dependency", "external", "decision", "resource"]
+          },
+          "affectedItems": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Issue IDs blocked by this"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolvedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "risks": {
+      "type": "array",
+      "description": "Cycle risk register",
+      "items": {
+        "type": "object",
+        "required": ["description", "severity"],
+        "properties": {
+          "description": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "likelihood": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "mitigation": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["open", "mitigated", "realized", "closed"]
+          }
+        }
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "description": "Session data collected during cycle",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sessionId": { "type": "string" },
+          "date": { "type": "string", "format": "date" },
+          "itemsCompleted": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "hoursWorked": { "type": "number" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "retrospective": {
+      "type": "object",
+      "description": "Retrospective data (populated after cycle ends)",
+      "properties": {
+        "estimationAccuracy": {
+          "type": "number",
+          "description": "Percentage accuracy of estimates"
+        },
+        "completionRate": {
+          "type": "number",
+          "description": "Percentage of scope completed"
+        },
+        "blockerCount": { "type": "number" },
+        "averageBlockerResolutionDays": { "type": "number" },
+        "velocityComparison": {
+          "type": "object",
+          "properties": {
+            "thisCycle": { "type": "number" },
+            "previousCycle": { "type": "number" },
+            "trend": { "type": "string" }
+          }
+        },
+        "themes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "improvements": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "linearCycleId": {
+      "type": ["string", "null"],
+      "description": "Linked Linear Cycle ID"
+    },
+    "linearTeamId": {
+      "type": ["string", "null"],
+      "description": "Linear Team ID"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Codex Workflow Settings",
+  "type": "object",
+  "required": ["project", "projectMetadata", "workflow", "installation", "paths"],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "project": {
+      "type": "object",
+      "required": ["name", "type", "variant"],
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "type": { "type": "string" },
+        "variant": { "type": "string" }
+      }
+    },
+    "projectMetadata": {
+      "type": "object",
+      "properties": {
+        "linear": { "type": "object" },
+        "coda": { "type": "object" },
+        "github": { "type": "object" }
+      }
+    },
+    "workflow": {
+      "type": "object"
+    },
+    "installation": {
+      "type": "object",
+      "required": ["pluginVersion", "workflowVersion", "variant", "baseExclusions"],
+      "properties": {
+        "pluginVersion": { "type": "string" },
+        "workflowVersion": { "type": "string" },
+        "variant": { "type": "string" },
+        "baseExclusions": {
+          "type": "object",
+          "properties": {
+            "agents": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "commands": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "tasks": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "type": "object"
+    }
+  }
+}
